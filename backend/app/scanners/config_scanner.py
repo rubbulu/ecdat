@@ -184,8 +184,11 @@ class ConfigScanner(BaseScanner):
                 elif handler == "cipher_suite_tokens":
                     raw_ciphers = match.group(1).replace(":", " ").replace("+", " ").split()
                     for token in raw_ciphers:
+                        # Exclude negated/disabled ciphers in OpenSSL syntax (e.g. !aNULL, -MD5, !EXPORT)
+                        if token.startswith("!") or token.startswith("-"):
+                            continue
                         clean_token = token.strip("!").strip("-").strip()
-                        if not clean_token or clean_token.startswith("!"):
+                        if not clean_token:
                             continue
 
                         # Check known weak/classical cipher keywords
@@ -257,18 +260,17 @@ class ConfigScanner(BaseScanner):
         return results
 
     def _normalize_protocol_name(self, token: str) -> str:
-        t = token.upper().replace("V", " ").replace(".", " ").split()
-        joined = "".join(t)
-        if "SSL3" in joined or "SSLV3" in joined:
+        clean = token.upper().replace("_", "").replace(".", "").replace(" ", "").replace("V", "")
+        if "SSL3" in clean:
             return "SSLv3"
-        elif "TLS10" in joined or "TLS1" in joined and "1" not in joined[4:]:
-            return "TLS 1.0"
-        elif "TLS11" in joined:
-            return "TLS 1.1"
-        elif "TLS12" in joined:
-            return "TLS 1.2"
-        elif "TLS13" in joined:
+        elif "TLS13" in clean:
             return "TLS 1.3"
+        elif "TLS12" in clean:
+            return "TLS 1.2"
+        elif "TLS11" in clean:
+            return "TLS 1.1"
+        elif "TLS10" in clean or "TLS1" in clean:
+            return "TLS 1.0"
         return token
 
     def _categorize_ssh_algorithm(self, algo: str) -> Tuple[str, QuantumStatus, str]:
@@ -286,5 +288,11 @@ class ConfigScanner(BaseScanner):
         elif "arcfour" in a:
             return "RC4", QuantumStatus.CLASSICALLY_BROKEN, "Stream Cipher"
         elif "aes" in a:
-            return "AES", QuantumStatus.QUANTUM_SAFE, "Symmetric Cipher"
+            if "128" in a:
+                return "AES-128", QuantumStatus.WEAKENED_GROVER, "Symmetric Cipher"
+            elif "192" in a:
+                return "AES-192", QuantumStatus.QUANTUM_SAFE, "Symmetric Cipher"
+            elif "256" in a:
+                return "AES-256", QuantumStatus.QUANTUM_SAFE, "Symmetric Cipher"
+            return "AES-256", QuantumStatus.QUANTUM_SAFE, "Symmetric Cipher"
         return algo, QuantumStatus.VULNERABLE_SHOR, "SSH Primitive"

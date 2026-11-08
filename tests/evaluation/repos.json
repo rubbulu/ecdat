@@ -1,0 +1,72 @@
+[
+  {
+    "name": "tiny-AES-c",
+    "owner": "kokke",
+    "url": "https://github.com/kokke/tiny-AES-c.git",
+    "language": "C",
+    "description": "Small, portable AES-128/192/256 algorithm implementation in C"
+  },
+  {
+    "name": "node-jsonwebtoken",
+    "owner": "auth0",
+    "url": "https://github.com/auth0/node-jsonwebtoken.git",
+    "language": "JavaScript",
+    "description": "JsonWebToken implementation for Node.js using HMAC and RSA"
+  },
+  {
+    "name": "bottle",
+    "owner": "bottlepy",
+    "url": "https://github.com/bottlepy/bottle.git",
+    "language": "Python",
+    "description": "Fast and simple micro-framework for small Python web applications"
+  },
+  {
+    "name": "securecookie",
+    "owner": "gorilla",
+    "url": "https://github.com/gorilla/securecookie.git",
+    "language": "Go",
+    "description": "Go package for encoding and decoding authenticated and encrypted cookie values"
+  },
+  {
+    "name": "bcrypt",
+    "owner": "pyca",
+    "url": "https://github.com/pyca/bcrypt.git",
+    "language": "Python",
+    "description": "Modern password hashing library for Python software"
+  },
+  {
+    "name": "liboqs-python",
+    "owner": "open-quantum-safe",
+    "url": "https://github.com/open-quantum-safe/liboqs-python.git",
+    "language": "Python",
+    "description": "Open Quantum Safe Python bindings for NIST post-quantum cryptographic algorithms"
+  },
+  {
+    "name": "crypto-algorithms",
+    "owner": "B-Con",
+    "url": "https://github.com/B-Con/crypto-algorithms.git",
+    "language": "C",
+    "description": "Basic implementations of standard cryptography algorithms (AES, DES, SHA-256)"
+  },
+  {
+    "name": "node-fs-extra",
+    "owner": "jprichardson",
+    "url": "https://github.com/jprichardson/node-fs-extra.git",
+    "language": "JavaScript",
+    "description": "Node.js extra file system methods and helper routines"
+  },
+  {
+    "name": "snappy-go",
+    "owner": "golang",
+    "url": "https://github.com/golang/snappy.git",
+    "language": "Go",
+    "description": "Snappy compression and hash verification in Go"
+  },
+  {
+    "name": "markupsafe",
+    "owner": "pallets",
+    "url": "https://github.com/pallets/markupsafe.git",
+    "language": "Python",
+    "description": "Safely escapes characters for HTML/XML in Python"
+  }
+]
