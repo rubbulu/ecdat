@@ -46,6 +46,17 @@ class ContainerScanner(BaseScanner):
             SourceScanner(),
         ]
 
+    def can_handle(self, path: Union[str, Path]) -> bool:
+        """Only handle file paths matching tarball extensions or image names."""
+        p = Path(path)
+        if p.is_file():
+            return any(str(p).lower().endswith(ext) for ext in self.supported_extensions)
+        # If it's a directory, container scanner does not scan it as an image
+        if p.is_dir():
+            return False
+        # If path doesn't exist on disk, could be image name (e.g. 'ubuntu:latest')
+        return True
+
     def scan(self, target_path: Union[str, Path]) -> List[Artefact]:
         target_str = str(target_path).strip()
         target_path_obj = Path(target_str)

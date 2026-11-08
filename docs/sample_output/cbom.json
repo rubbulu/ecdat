@@ -1,0 +1,2998 @@
+{
+  "$schema": "http://cyclonedx.org/schema/bom-1.6.schema.json",
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.6",
+  "serialNumber": "urn:uuid:346ddc95-c5be-4416-a20a-b81293b229a8",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2026-11-08T19:58:07.797094+00:00",
+    "tools": {
+      "components": [
+        {
+          "type": "application",
+          "name": "ECDAT",
+          "version": "1.0.0",
+          "description": "Enterprise Cryptographic Discovery & Analysis Tool",
+          "externalReferences": [
+            {
+              "type": "website",
+              "url": "https://github.com/rubbulu/ecdat"
+            }
+          ]
+        }
+      ]
+    },
+    "component": {
+      "type": "application",
+      "name": "ECDAT Vulnerable Benchmark App",
+      "version": "1.0.0"
+    },
+    "properties": [
+      {
+        "name": "ecdat:total_crypto_assets",
+        "value": "45"
+      },
+      {
+        "name": "ecdat:at_risk_crypto_assets",
+        "value": "23"
+      }
+    ]
+  },
+  "components": [
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto-asset-44abcb44-4166-4297-a40b-4566caa4d0e7",
+      "name": "RSA",
+      "cryptoProperties": {
+        "assetType": "certificate",
+        "certificateProperties": {
+          "subjectName": "O=ECDAT Insecure Corp,CN=vulnerable-internal.corp",
+          "issuerName": "O=ECDAT Insecure Corp,CN=vulnerable-internal.corp",
+          "notValidBefore": "2026-11-07T18:12:05+00:00",
+          "notValidAfter": "2027-02-06T18:12:05+00:00",
+          "signatureAlgorithmRef": "sha256WithRSAEncryption"
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "sample_targets\\vulnerable_app\\server.crt",
+            "line": 1
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "ecdat:detection_method",
+          "value": "x509_parser"
+        },
+        {
+          "name": "ecdat:quantum_status",
+          "value": "vulnerable_shor"
+        },
+        {
+          "name": "ecdat:confidence",
+          "value": "1.0"
+        },
+        {
+          "name": "ecdat:risk_score",
+          "value": "79.0"
+        },
+        {
+          "name": "ecdat:risk_level",
+          "value": "high"
+        },
+        {
+          "name": "ecdat:is_at_risk",
+          "value": "true"
+        },
+        {
+          "name": "ecdat:mosca_x",
+          "value": "15.0"
+        },
+        {
+          "name": "ecdat:mosca_y",
+          "value": "3.0"
+        },
+        {
+          "name": "ecdat:mosca_z",
+          "value": "12.0"
+        },
+        {
+          "name": "ecdat:explanation",
+          "value": "RSA-2048 protects 15-year data; 15 + 3 > 12, so this is at risk from Shor's algorithm."
+        },
+        {
+          "name": "ecdat:nist_replacement",
+          "value": "ML-KEM (FIPS 203) for key encapsulation; ML-DSA (FIPS 204) / SLH-DSA (FIPS 205) for digital signatures"
+        }
+      ],
+      "version": "v3"
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto-asset-fb1e28b6-94b9-4add-a5f3-f86e23b0975b",
+      "name": "TLS 1.0",
+      "cryptoProperties": {
+        "assetType": "protocol",
+        "protocolProperties": {
+          "type": "tls",
+          "version": "TLS 1.0"
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "sample_targets\\vulnerable_app\\.env",
+            "line": 2
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "ecdat:detection_method",
+          "value": "env_variable"
+        },
+        {
+          "name": "ecdat:quantum_status",
+          "value": "classically_broken"
+        },
+        {
+          "name": "ecdat:confidence",
+          "value": "0.9"
+        },
+        {
+          "name": "ecdat:risk_score",
+          "value": "80.0"
+        },
+        {
+          "name": "ecdat:risk_level",
+          "value": "critical"
+        },
+        {
+          "name": "ecdat:is_at_risk",
+          "value": "true"
+        },
+        {
+          "name": "ecdat:mosca_x",
+          "value": "5.0"
+        },
+        {
+          "name": "ecdat:mosca_y",
+          "value": "3.0"
+        },
+        {
+          "name": "ecdat:mosca_z",
+          "value": "12.0"
+        },
+        {
+          "name": "ecdat:explanation",
+          "value": "TLS 1.0 is classically broken and obsolete; vulnerable to immediate exploitation today regardless of quantum timeline."
+        },
+        {
+          "name": "ecdat:nist_replacement",
+          "value": "TLS 1.3 with Hybrid/PQC KEM"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto-asset-bf775812-4093-41d9-b1cc-482a0710f43f",
+      "name": "RC4",
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "stream-cipher"
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "sample_targets\\vulnerable_app\\.env",
+            "line": 3
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "ecdat:detection_method",
+          "value": "env_variable"
+        },
+        {
+          "name": "ecdat:quantum_status",
+          "value": "classically_broken"
+        },
+        {
+          "name": "ecdat:confidence",
+          "value": "0.9"
+        },
+        {
+          "name": "ecdat:risk_score",
+          "value": "80.0"
+        },
+        {
+          "name": "ecdat:risk_level",
+          "value": "critical"
+        },
+        {
+          "name": "ecdat:is_at_risk",
+          "value": "true"
+        },
+        {
+          "name": "ecdat:mosca_x",
+          "value": "5.0"
+        },
+        {
+          "name": "ecdat:mosca_y",
+          "value": "3.0"
+        },
+        {
+          "name": "ecdat:mosca_z",
+          "value": "12.0"
+        },
+        {
+          "name": "ecdat:explanation",
+          "value": "RC4 is classically broken and obsolete; vulnerable to immediate exploitation today regardless of quantum timeline."
+        },
+        {
+          "name": "ecdat:nist_replacement",
+          "value": "AES-256-GCM / ChaCha20-Poly1305"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto-asset-3e6047ea-3710-4e06-8595-2d205f56b709",
+      "name": "HS256",
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "other"
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "sample_targets\\vulnerable_app\\.env",
+            "line": 4
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "ecdat:detection_method",
+          "value": "env_variable"
+        },
+        {
+          "name": "ecdat:quantum_status",
+          "value": "unclassified"
+        },
+        {
+          "name": "ecdat:confidence",
+          "value": "0.9"
+        },
+        {
+          "name": "ecdat:risk_score",
+          "value": "25.0"
+        },
+        {
+          "name": "ecdat:risk_level",
+          "value": "low"
+        },
+        {
+          "name": "ecdat:is_at_risk",
+          "value": "false"
+        },
+        {
+          "name": "ecdat:mosca_x",
+          "value": "5.0"
+        },
+        {
+          "name": "ecdat:mosca_y",
+          "value": "3.0"
+        },
+        {
+          "name": "ecdat:mosca_z",
+          "value": "12.0"
+        },
+        {
+          "name": "ecdat:explanation",
+          "value": "HS256 is unclassified in the cryptographic catalogue; manual review recommended."
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto-asset-6d17cd7e-5e6a-4d79-9007-45c7b1e96507",
+      "name": "TLS 1.0",
+      "cryptoProperties": {
+        "assetType": "protocol",
+        "protocolProperties": {
+          "type": "tls",
+          "version": "TLS 1.0"
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "sample_targets\\vulnerable_app\\nginx.conf",
+            "line": 9
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "ecdat:detection_method",
+          "value": "config_directive"
+        },
+        {
+          "name": "ecdat:quantum_status",
+          "value": "classically_broken"
+        },
+        {
+          "name": "ecdat:confidence",
+          "value": "0.98"
+        },
+        {
+          "name": "ecdat:risk_score",
+          "value": "80.0"
+        },
+        {
+          "name": "ecdat:risk_level",
+          "value": "critical"
+        },
+        {
+          "name": "ecdat:is_at_risk",
+          "value": "true"
+        },
+        {
+          "name": "ecdat:mosca_x",
+          "value": "5.0"
+        },
+        {
+          "name": "ecdat:mosca_y",
+          "value": "3.0"
+        },
+        {
+          "name": "ecdat:mosca_z",
+          "value": "12.0"
+        },
+        {
+          "name": "ecdat:explanation",
+          "value": "TLS 1.0 is classically broken and obsolete; vulnerable to immediate exploitation today regardless of quantum timeline."
+        },
+        {
+          "name": "ecdat:nist_replacement",
+          "value": "TLS 1.3 with Hybrid/PQC KEM"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto-asset-6400323d-f230-4d87-8a5d-f8c9fdb22ba4",
+      "name": "TLS 1.1",
+      "cryptoProperties": {
+        "assetType": "protocol",
+        "protocolProperties": {
+          "type": "tls",
+          "version": "TLS 1.1"
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "sample_targets\\vulnerable_app\\nginx.conf",
+            "line": 9
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "ecdat:detection_method",
+          "value": "config_directive"
+        },
+        {
+          "name": "ecdat:quantum_status",
+          "value": "classically_broken"
+        },
+        {
+          "name": "ecdat:confidence",
+          "value": "0.98"
+        },
+        {
+          "name": "ecdat:risk_score",
+          "value": "80.0"
+        },
+        {
+          "name": "ecdat:risk_level",
+          "value": "critical"
+        },
+        {
+          "name": "ecdat:is_at_risk",
+          "value": "true"
+        },
+        {
+          "name": "ecdat:mosca_x",
+          "value": "5.0"
+        },
+        {
+          "name": "ecdat:mosca_y",
+          "value": "3.0"
+        },
+        {
+          "name": "ecdat:mosca_z",
+          "value": "12.0"
+        },
+        {
+          "name": "ecdat:explanation",
+          "value": "TLS 1.1 is classically broken and obsolete; vulnerable to immediate exploitation today regardless of quantum timeline."
+        },
+        {
+          "name": "ecdat:nist_replacement",
+          "value": "TLS 1.3 with Hybrid/PQC KEM"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto-asset-91428b40-d0ae-411f-b6c2-4f9111ac1bd0",
+      "name": "TLS 1.0",
+      "cryptoProperties": {
+        "assetType": "protocol",
+        "protocolProperties": {
+          "type": "tls",
+          "version": "TLS 1.0"
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "sample_targets\\vulnerable_app\\nginx.conf",
+            "line": 9
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "ecdat:detection_method",
+          "value": "config_directive"
+        },
+        {
+          "name": "ecdat:quantum_status",
+          "value": "classically_broken"
+        },
+        {
+          "name": "ecdat:confidence",
+          "value": "0.98"
+        },
+        {
+          "name": "ecdat:risk_score",
+          "value": "80.0"
+        },
+        {
+          "name": "ecdat:risk_level",
+          "value": "critical"
+        },
+        {
+          "name": "ecdat:is_at_risk",
+          "value": "true"
+        },
+        {
+          "name": "ecdat:mosca_x",
+          "value": "5.0"
+        },
+        {
+          "name": "ecdat:mosca_y",
+          "value": "3.0"
+        },
+        {
+          "name": "ecdat:mosca_z",
+          "value": "12.0"
+        },
+        {
+          "name": "ecdat:explanation",
+          "value": "TLS 1.0 is classically broken and obsolete; vulnerable to immediate exploitation today regardless of quantum timeline."
+        },
+        {
+          "name": "ecdat:nist_replacement",
+          "value": "TLS 1.3 with Hybrid/PQC KEM"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto-asset-6a060027-c498-4f63-8369-e36a79db162c",
+      "name": "NULL",
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "other"
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "sample_targets\\vulnerable_app\\nginx.conf",
+            "line": 12
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "ecdat:detection_method",
+          "value": "config_directive"
+        },
+        {
+          "name": "ecdat:quantum_status",
+          "value": "unclassified"
+        },
+        {
+          "name": "ecdat:confidence",
+          "value": "0.95"
+        },
+        {
+          "name": "ecdat:risk_score",
+          "value": "25.0"
+        },
+        {
+          "name": "ecdat:risk_level",
+          "value": "low"
+        },
+        {
+          "name": "ecdat:is_at_risk",
+          "value": "false"
+        },
+        {
+          "name": "ecdat:mosca_x",
+          "value": "5.0"
+        },
+        {
+          "name": "ecdat:mosca_y",
+          "value": "3.0"
+        },
+        {
+          "name": "ecdat:mosca_z",
+          "value": "12.0"
+        },
+        {
+          "name": "ecdat:explanation",
+          "value": "NULL is unclassified in the cryptographic catalogue; manual review recommended."
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto-asset-168115c8-eff8-494a-be79-813a575772e1",
+      "name": "RC4",
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "stream-cipher"
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "sample_targets\\vulnerable_app\\nginx.conf",
+            "line": 12
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "ecdat:detection_method",
+          "value": "config_directive"
+        },
+        {
+          "name": "ecdat:quantum_status",
+          "value": "classically_broken"
+        },
+        {
+          "name": "ecdat:confidence",
+          "value": "0.95"
+        },
+        {
+          "name": "ecdat:risk_score",
+          "value": "80.0"
+        },
+        {
+          "name": "ecdat:risk_level",
+          "value": "critical"
+        },
+        {
+          "name": "ecdat:is_at_risk",
+          "value": "true"
+        },
+        {
+          "name": "ecdat:mosca_x",
+          "value": "5.0"
+        },
+        {
+          "name": "ecdat:mosca_y",
+          "value": "3.0"
+        },
+        {
+          "name": "ecdat:mosca_z",
+          "value": "12.0"
+        },
+        {
+          "name": "ecdat:explanation",
+          "value": "RC4 is classically broken and obsolete; vulnerable to immediate exploitation today regardless of quantum timeline."
+        },
+        {
+          "name": "ecdat:nist_replacement",
+          "value": "AES-256-GCM / ChaCha20-Poly1305"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto-asset-4d0688fc-fe5b-4937-8bf2-83b969865659",
+      "name": "3DES",
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "block-cipher",
+          "classicalSecurityLevel": 64,
+          "nistQuantumSecurityLevel": 0
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "sample_targets\\vulnerable_app\\nginx.conf",
+            "line": 12
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "ecdat:detection_method",
+          "value": "config_directive"
+        },
+        {
+          "name": "ecdat:quantum_status",
+          "value": "classically_broken"
+        },
+        {
+          "name": "ecdat:confidence",
+          "value": "0.95"
+        },
+        {
+          "name": "ecdat:risk_score",
+          "value": "80.0"
+        },
+        {
+          "name": "ecdat:risk_level",
+          "value": "critical"
+        },
+        {
+          "name": "ecdat:is_at_risk",
+          "value": "true"
+        },
+        {
+          "name": "ecdat:mosca_x",
+          "value": "5.0"
+        },
+        {
+          "name": "ecdat:mosca_y",
+          "value": "3.0"
+        },
+        {
+          "name": "ecdat:mosca_z",
+          "value": "12.0"
+        },
+        {
+          "name": "ecdat:explanation",
+          "value": "3DES is classically broken and obsolete; vulnerable to immediate exploitation today regardless of quantum timeline."
+        },
+        {
+          "name": "ecdat:nist_replacement",
+          "value": "AES-256-GCM"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto-asset-f321a08d-4a7f-48bb-ad42-a348fc64c46c",
+      "name": "MD5",
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "digest",
+          "classicalSecurityLevel": 64,
+          "nistQuantumSecurityLevel": 0
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "sample_targets\\vulnerable_app\\nginx.conf",
+            "line": 12
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "ecdat:detection_method",
+          "value": "config_directive"
+        },
+        {
+          "name": "ecdat:quantum_status",
+          "value": "classically_broken"
+        },
+        {
+          "name": "ecdat:confidence",
+          "value": "0.95"
+        },
+        {
+          "name": "ecdat:risk_score",
+          "value": "80.0"
+        },
+        {
+          "name": "ecdat:risk_level",
+          "value": "critical"
+        },
+        {
+          "name": "ecdat:is_at_risk",
+          "value": "true"
+        },
+        {
+          "name": "ecdat:mosca_x",
+          "value": "5.0"
+        },
+        {
+          "name": "ecdat:mosca_y",
+          "value": "3.0"
+        },
+        {
+          "name": "ecdat:mosca_z",
+          "value": "12.0"
+        },
+        {
+          "name": "ecdat:explanation",
+          "value": "MD5 is classically broken and obsolete; vulnerable to immediate exploitation today regardless of quantum timeline."
+        },
+        {
+          "name": "ecdat:nist_replacement",
+          "value": "SHA-256 / SHA-384 / SHA-3"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto-asset-eebe1ae5-35e3-4d3c-bc2d-547330f08e64",
+      "name": "DH",
+      "cryptoProperties": {
+        "assetType": "protocol",
+        "protocolProperties": {
+          "type": "other",
+          "version": "DH"
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "sample_targets\\vulnerable_app\\sshd_config",
+            "line": 5
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "ecdat:detection_method",
+          "value": "sshd_config"
+        },
+        {
+          "name": "ecdat:quantum_status",
+          "value": "vulnerable_shor"
+        },
+        {
+          "name": "ecdat:confidence",
+          "value": "0.98"
+        },
+        {
+          "name": "ecdat:risk_score",
+          "value": "45.0"
+        },
+        {
+          "name": "ecdat:risk_level",
+          "value": "medium"
+        },
+        {
+          "name": "ecdat:is_at_risk",
+          "value": "false"
+        },
+        {
+          "name": "ecdat:mosca_x",
+          "value": "5.0"
+        },
+        {
+          "name": "ecdat:mosca_y",
+          "value": "3.0"
+        },
+        {
+          "name": "ecdat:mosca_z",
+          "value": "12.0"
+        },
+        {
+          "name": "ecdat:explanation",
+          "value": "DH is vulnerable to Shor's algorithm, but migration horizon (5 + 3 = 8y) fits within estimated CRQC timeline (12y)."
+        },
+        {
+          "name": "ecdat:nist_replacement",
+          "value": "ML-KEM (FIPS 203) or Hybrid (DH + ML-KEM)"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto-asset-bac3bf0e-0c0d-416f-bd83-f7cb5e8131a8",
+      "name": "DH",
+      "cryptoProperties": {
+        "assetType": "protocol",
+        "protocolProperties": {
+          "type": "other",
+          "version": "DH"
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "sample_targets\\vulnerable_app\\sshd_config",
+            "line": 5
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "ecdat:detection_method",
+          "value": "sshd_config"
+        },
+        {
+          "name": "ecdat:quantum_status",
+          "value": "vulnerable_shor"
+        },
+        {
+          "name": "ecdat:confidence",
+          "value": "0.98"
+        },
+        {
+          "name": "ecdat:risk_score",
+          "value": "45.0"
+        },
+        {
+          "name": "ecdat:risk_level",
+          "value": "medium"
+        },
+        {
+          "name": "ecdat:is_at_risk",
+          "value": "false"
+        },
+        {
+          "name": "ecdat:mosca_x",
+          "value": "5.0"
+        },
+        {
+          "name": "ecdat:mosca_y",
+          "value": "3.0"
+        },
+        {
+          "name": "ecdat:mosca_z",
+          "value": "12.0"
+        },
+        {
+          "name": "ecdat:explanation",
+          "value": "DH is vulnerable to Shor's algorithm, but migration horizon (5 + 3 = 8y) fits within estimated CRQC timeline (12y)."
+        },
+        {
+          "name": "ecdat:nist_replacement",
+          "value": "ML-KEM (FIPS 203) or Hybrid (DH + ML-KEM)"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto-asset-13497cd2-9794-46b8-bdaa-6ba05fd4c0f0",
+      "name": "RSA",
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "pke",
+          "classicalSecurityLevel": 80,
+          "nistQuantumSecurityLevel": 0
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "sample_targets\\vulnerable_app\\sshd_config",
+            "line": 6
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "ecdat:detection_method",
+          "value": "sshd_config"
+        },
+        {
+          "name": "ecdat:quantum_status",
+          "value": "vulnerable_shor"
+        },
+        {
+          "name": "ecdat:confidence",
+          "value": "0.98"
+        },
+        {
+          "name": "ecdat:risk_score",
+          "value": "45.0"
+        },
+        {
+          "name": "ecdat:risk_level",
+          "value": "medium"
+        },
+        {
+          "name": "ecdat:is_at_risk",
+          "value": "false"
+        },
+        {
+          "name": "ecdat:mosca_x",
+          "value": "5.0"
+        },
+        {
+          "name": "ecdat:mosca_y",
+          "value": "3.0"
+        },
+        {
+          "name": "ecdat:mosca_z",
+          "value": "12.0"
+        },
+        {
+          "name": "ecdat:explanation",
+          "value": "RSA is vulnerable to Shor's algorithm, but migration horizon (5 + 3 = 8y) fits within estimated CRQC timeline (12y)."
+        },
+        {
+          "name": "ecdat:nist_replacement",
+          "value": "ML-KEM (FIPS 203) for key encapsulation; ML-DSA (FIPS 204) / SLH-DSA (FIPS 205) for digital signatures"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto-asset-183e3182-7bca-46be-892f-5588d02b0c08",
+      "name": "3DES",
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "block-cipher",
+          "classicalSecurityLevel": 64,
+          "nistQuantumSecurityLevel": 0
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "sample_targets\\vulnerable_app\\sshd_config",
+            "line": 7
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "ecdat:detection_method",
+          "value": "sshd_config"
+        },
+        {
+          "name": "ecdat:quantum_status",
+          "value": "classically_broken"
+        },
+        {
+          "name": "ecdat:confidence",
+          "value": "0.98"
+        },
+        {
+          "name": "ecdat:risk_score",
+          "value": "80.0"
+        },
+        {
+          "name": "ecdat:risk_level",
+          "value": "critical"
+        },
+        {
+          "name": "ecdat:is_at_risk",
+          "value": "true"
+        },
+        {
+          "name": "ecdat:mosca_x",
+          "value": "5.0"
+        },
+        {
+          "name": "ecdat:mosca_y",
+          "value": "3.0"
+        },
+        {
+          "name": "ecdat:mosca_z",
+          "value": "12.0"
+        },
+        {
+          "name": "ecdat:explanation",
+          "value": "3DES is classically broken and obsolete; vulnerable to immediate exploitation today regardless of quantum timeline."
+        },
+        {
+          "name": "ecdat:nist_replacement",
+          "value": "AES-256-GCM"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto-asset-7c4f554e-2dfc-40d2-8f75-6c98873a7448",
+      "name": "AES-256",
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "block-cipher",
+          "classicalSecurityLevel": 256,
+          "nistQuantumSecurityLevel": 5
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "sample_targets\\vulnerable_app\\sshd_config",
+            "line": 7
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "ecdat:detection_method",
+          "value": "sshd_config"
+        },
+        {
+          "name": "ecdat:quantum_status",
+          "value": "quantum_safe"
+        },
+        {
+          "name": "ecdat:confidence",
+          "value": "0.98"
+        },
+        {
+          "name": "ecdat:risk_score",
+          "value": "5.0"
+        },
+        {
+          "name": "ecdat:risk_level",
+          "value": "low"
+        },
+        {
+          "name": "ecdat:is_at_risk",
+          "value": "false"
+        },
+        {
+          "name": "ecdat:mosca_x",
+          "value": "5.0"
+        },
+        {
+          "name": "ecdat:mosca_y",
+          "value": "3.0"
+        },
+        {
+          "name": "ecdat:mosca_z",
+          "value": "12.0"
+        },
+        {
+          "name": "ecdat:explanation",
+          "value": "AES-256 is quantum-safe (None needed (Already NIST Quantum-Resistant)); timeline 5 + 3 > 12 does not present quantum compromise risk."
+        },
+        {
+          "name": "ecdat:nist_replacement",
+          "value": "None needed (Already NIST Quantum-Resistant)"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto-asset-0d129b06-5607-413d-b4c1-373790de46a9",
+      "name": "golang.org/x/crypto",
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "other"
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "sample_targets\\vulnerable_app\\go.mod",
+            "line": 6
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "ecdat:detection_method",
+          "value": "dependency_manifest"
+        },
+        {
+          "name": "ecdat:quantum_status",
+          "value": "vulnerable_shor"
+        },
+        {
+          "name": "ecdat:confidence",
+          "value": "1.0"
+        },
+        {
+          "name": "ecdat:risk_score",
+          "value": "45.0"
+        },
+        {
+          "name": "ecdat:risk_level",
+          "value": "medium"
+        },
+        {
+          "name": "ecdat:is_at_risk",
+          "value": "false"
+        },
+        {
+          "name": "ecdat:mosca_x",
+          "value": "5.0"
+        },
+        {
+          "name": "ecdat:mosca_y",
+          "value": "3.0"
+        },
+        {
+          "name": "ecdat:mosca_z",
+          "value": "12.0"
+        },
+        {
+          "name": "ecdat:explanation",
+          "value": "golang.org/x/crypto is vulnerable to Shor's algorithm, but migration horizon (5 + 3 = 8y) fits within estimated CRQC timeline (12y)."
+        }
+      ],
+      "version": "v0.14.0"
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto-asset-3b2712a9-67b2-412d-bebd-50a2e58ddc77",
+      "name": "crypto-js",
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "other"
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "sample_targets\\vulnerable_app\\package.json",
+            "line": 7
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "ecdat:detection_method",
+          "value": "dependency_manifest"
+        },
+        {
+          "name": "ecdat:quantum_status",
+          "value": "classically_broken"
+        },
+        {
+          "name": "ecdat:confidence",
+          "value": "1.0"
+        },
+        {
+          "name": "ecdat:risk_score",
+          "value": "80.0"
+        },
+        {
+          "name": "ecdat:risk_level",
+          "value": "critical"
+        },
+        {
+          "name": "ecdat:is_at_risk",
+          "value": "true"
+        },
+        {
+          "name": "ecdat:mosca_x",
+          "value": "5.0"
+        },
+        {
+          "name": "ecdat:mosca_y",
+          "value": "3.0"
+        },
+        {
+          "name": "ecdat:mosca_z",
+          "value": "12.0"
+        },
+        {
+          "name": "ecdat:explanation",
+          "value": "crypto-js is classically broken and obsolete; vulnerable to immediate exploitation today regardless of quantum timeline."
+        }
+      ],
+      "version": "^3.1.9-1"
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto-asset-2760e288-4c30-43c9-9174-dcf40bc1a6a4",
+      "name": "node-forge",
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "other"
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "sample_targets\\vulnerable_app\\package.json",
+            "line": 8
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "ecdat:detection_method",
+          "value": "dependency_manifest"
+        },
+        {
+          "name": "ecdat:quantum_status",
+          "value": "vulnerable_shor"
+        },
+        {
+          "name": "ecdat:confidence",
+          "value": "1.0"
+        },
+        {
+          "name": "ecdat:risk_score",
+          "value": "45.0"
+        },
+        {
+          "name": "ecdat:risk_level",
+          "value": "medium"
+        },
+        {
+          "name": "ecdat:is_at_risk",
+          "value": "false"
+        },
+        {
+          "name": "ecdat:mosca_x",
+          "value": "5.0"
+        },
+        {
+          "name": "ecdat:mosca_y",
+          "value": "3.0"
+        },
+        {
+          "name": "ecdat:mosca_z",
+          "value": "12.0"
+        },
+        {
+          "name": "ecdat:explanation",
+          "value": "node-forge is vulnerable to Shor's algorithm, but migration horizon (5 + 3 = 8y) fits within estimated CRQC timeline (12y)."
+        }
+      ],
+      "version": "^0.10.0"
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto-asset-a2eed97a-598b-4aec-9b4c-e977b993069a",
+      "name": "bouncycastle",
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "other"
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "sample_targets\\vulnerable_app\\pom.xml",
+            "line": 9
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "ecdat:detection_method",
+          "value": "dependency_manifest"
+        },
+        {
+          "name": "ecdat:quantum_status",
+          "value": "vulnerable_shor"
+        },
+        {
+          "name": "ecdat:confidence",
+          "value": "1.0"
+        },
+        {
+          "name": "ecdat:risk_score",
+          "value": "45.0"
+        },
+        {
+          "name": "ecdat:risk_level",
+          "value": "medium"
+        },
+        {
+          "name": "ecdat:is_at_risk",
+          "value": "false"
+        },
+        {
+          "name": "ecdat:mosca_x",
+          "value": "5.0"
+        },
+        {
+          "name": "ecdat:mosca_y",
+          "value": "3.0"
+        },
+        {
+          "name": "ecdat:mosca_z",
+          "value": "12.0"
+        },
+        {
+          "name": "ecdat:explanation",
+          "value": "bouncycastle is vulnerable to Shor's algorithm, but migration horizon (5 + 3 = 8y) fits within estimated CRQC timeline (12y)."
+        }
+      ],
+      "version": "1.60"
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto-asset-73042b3a-e55b-48d4-9b78-270b2aabe2ef",
+      "name": "pycrypto",
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "other"
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "sample_targets\\vulnerable_app\\requirements.txt",
+            "line": 2
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "ecdat:detection_method",
+          "value": "dependency_manifest"
+        },
+        {
+          "name": "ecdat:quantum_status",
+          "value": "classically_broken"
+        },
+        {
+          "name": "ecdat:confidence",
+          "value": "1.0"
+        },
+        {
+          "name": "ecdat:risk_score",
+          "value": "80.0"
+        },
+        {
+          "name": "ecdat:risk_level",
+          "value": "critical"
+        },
+        {
+          "name": "ecdat:is_at_risk",
+          "value": "true"
+        },
+        {
+          "name": "ecdat:mosca_x",
+          "value": "5.0"
+        },
+        {
+          "name": "ecdat:mosca_y",
+          "value": "3.0"
+        },
+        {
+          "name": "ecdat:mosca_z",
+          "value": "12.0"
+        },
+        {
+          "name": "ecdat:explanation",
+          "value": "pycrypto is classically broken and obsolete; vulnerable to immediate exploitation today regardless of quantum timeline."
+        }
+      ],
+      "version": "2.6.1"
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto-asset-e8df93d6-28a0-4255-83cc-26bd65e72f51",
+      "name": "cryptography",
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "other"
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "sample_targets\\vulnerable_app\\requirements.txt",
+            "line": 3
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "ecdat:detection_method",
+          "value": "dependency_manifest"
+        },
+        {
+          "name": "ecdat:quantum_status",
+          "value": "vulnerable_shor"
+        },
+        {
+          "name": "ecdat:confidence",
+          "value": "1.0"
+        },
+        {
+          "name": "ecdat:risk_score",
+          "value": "45.0"
+        },
+        {
+          "name": "ecdat:risk_level",
+          "value": "medium"
+        },
+        {
+          "name": "ecdat:is_at_risk",
+          "value": "false"
+        },
+        {
+          "name": "ecdat:mosca_x",
+          "value": "5.0"
+        },
+        {
+          "name": "ecdat:mosca_y",
+          "value": "3.0"
+        },
+        {
+          "name": "ecdat:mosca_z",
+          "value": "12.0"
+        },
+        {
+          "name": "ecdat:explanation",
+          "value": "cryptography is vulnerable to Shor's algorithm, but migration horizon (5 + 3 = 8y) fits within estimated CRQC timeline (12y)."
+        }
+      ],
+      "version": "3.4.8"
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto-asset-eeedb5f6-65d4-4370-828d-b9da38bbfe41",
+      "name": "pyOpenSSL",
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "other"
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "sample_targets\\vulnerable_app\\requirements.txt",
+            "line": 4
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "ecdat:detection_method",
+          "value": "dependency_manifest"
+        },
+        {
+          "name": "ecdat:quantum_status",
+          "value": "vulnerable_shor"
+        },
+        {
+          "name": "ecdat:confidence",
+          "value": "1.0"
+        },
+        {
+          "name": "ecdat:risk_score",
+          "value": "45.0"
+        },
+        {
+          "name": "ecdat:risk_level",
+          "value": "medium"
+        },
+        {
+          "name": "ecdat:is_at_risk",
+          "value": "false"
+        },
+        {
+          "name": "ecdat:mosca_x",
+          "value": "5.0"
+        },
+        {
+          "name": "ecdat:mosca_y",
+          "value": "3.0"
+        },
+        {
+          "name": "ecdat:mosca_z",
+          "value": "12.0"
+        },
+        {
+          "name": "ecdat:explanation",
+          "value": "pyOpenSSL is vulnerable to Shor's algorithm, but migration horizon (5 + 3 = 8y) fits within estimated CRQC timeline (12y)."
+        }
+      ],
+      "version": "21.0.0"
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto-asset-f319696d-11f9-4d71-a3e0-e80c925f3678",
+      "name": "MD5",
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "digest",
+          "classicalSecurityLevel": 64,
+          "nistQuantumSecurityLevel": 0
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "sample_targets\\vulnerable_app\\app.py",
+            "line": 22
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "ecdat:detection_method",
+          "value": "ast_parser"
+        },
+        {
+          "name": "ecdat:quantum_status",
+          "value": "classically_broken"
+        },
+        {
+          "name": "ecdat:confidence",
+          "value": "0.98"
+        },
+        {
+          "name": "ecdat:risk_score",
+          "value": "80.0"
+        },
+        {
+          "name": "ecdat:risk_level",
+          "value": "critical"
+        },
+        {
+          "name": "ecdat:is_at_risk",
+          "value": "true"
+        },
+        {
+          "name": "ecdat:mosca_x",
+          "value": "5.0"
+        },
+        {
+          "name": "ecdat:mosca_y",
+          "value": "3.0"
+        },
+        {
+          "name": "ecdat:mosca_z",
+          "value": "12.0"
+        },
+        {
+          "name": "ecdat:explanation",
+          "value": "MD5 is classically broken and obsolete; vulnerable to immediate exploitation today regardless of quantum timeline."
+        },
+        {
+          "name": "ecdat:nist_replacement",
+          "value": "SHA-256 / SHA-384 / SHA-3"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto-asset-a5ac9170-5788-401e-aefe-f875d161bb82",
+      "name": "SHA-1",
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "digest",
+          "classicalSecurityLevel": 64,
+          "nistQuantumSecurityLevel": 0
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "sample_targets\\vulnerable_app\\app.py",
+            "line": 27
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "ecdat:detection_method",
+          "value": "ast_parser"
+        },
+        {
+          "name": "ecdat:quantum_status",
+          "value": "classically_broken"
+        },
+        {
+          "name": "ecdat:confidence",
+          "value": "0.98"
+        },
+        {
+          "name": "ecdat:risk_score",
+          "value": "80.0"
+        },
+        {
+          "name": "ecdat:risk_level",
+          "value": "critical"
+        },
+        {
+          "name": "ecdat:is_at_risk",
+          "value": "true"
+        },
+        {
+          "name": "ecdat:mosca_x",
+          "value": "5.0"
+        },
+        {
+          "name": "ecdat:mosca_y",
+          "value": "3.0"
+        },
+        {
+          "name": "ecdat:mosca_z",
+          "value": "12.0"
+        },
+        {
+          "name": "ecdat:explanation",
+          "value": "SHA-1 is classically broken and obsolete; vulnerable to immediate exploitation today regardless of quantum timeline."
+        },
+        {
+          "name": "ecdat:nist_replacement",
+          "value": "SHA-256 / SHA-384 / SHA-3"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto-asset-7fd30c69-d404-47f4-b100-1f2f08282c7d",
+      "name": "AES-256",
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "block-cipher",
+          "mode": "ecb",
+          "classicalSecurityLevel": 256,
+          "nistQuantumSecurityLevel": 5
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "sample_targets\\vulnerable_app\\app.py",
+            "line": 32
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "ecdat:detection_method",
+          "value": "ast_parser"
+        },
+        {
+          "name": "ecdat:quantum_status",
+          "value": "quantum_safe"
+        },
+        {
+          "name": "ecdat:confidence",
+          "value": "0.98"
+        },
+        {
+          "name": "ecdat:risk_score",
+          "value": "5.0"
+        },
+        {
+          "name": "ecdat:risk_level",
+          "value": "low"
+        },
+        {
+          "name": "ecdat:is_at_risk",
+          "value": "false"
+        },
+        {
+          "name": "ecdat:mosca_x",
+          "value": "5.0"
+        },
+        {
+          "name": "ecdat:mosca_y",
+          "value": "3.0"
+        },
+        {
+          "name": "ecdat:mosca_z",
+          "value": "12.0"
+        },
+        {
+          "name": "ecdat:explanation",
+          "value": "AES-256 is quantum-safe (None needed (Already NIST Quantum-Resistant)); timeline 5 + 3 > 12 does not present quantum compromise risk."
+        },
+        {
+          "name": "ecdat:nist_replacement",
+          "value": "None needed (Already NIST Quantum-Resistant)"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto-asset-9dd4f96b-9633-439f-a685-29a40368002f",
+      "name": "RSA",
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "pke",
+          "parameterSetIdentifier": "1024",
+          "classicalSecurityLevel": 80,
+          "nistQuantumSecurityLevel": 0
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "sample_targets\\vulnerable_app\\app.py",
+            "line": 38
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "ecdat:detection_method",
+          "value": "ast_parser"
+        },
+        {
+          "name": "ecdat:quantum_status",
+          "value": "vulnerable_shor"
+        },
+        {
+          "name": "ecdat:confidence",
+          "value": "0.99"
+        },
+        {
+          "name": "ecdat:risk_score",
+          "value": "60.0"
+        },
+        {
+          "name": "ecdat:risk_level",
+          "value": "high"
+        },
+        {
+          "name": "ecdat:is_at_risk",
+          "value": "false"
+        },
+        {
+          "name": "ecdat:mosca_x",
+          "value": "5.0"
+        },
+        {
+          "name": "ecdat:mosca_y",
+          "value": "3.0"
+        },
+        {
+          "name": "ecdat:mosca_z",
+          "value": "12.0"
+        },
+        {
+          "name": "ecdat:explanation",
+          "value": "RSA is vulnerable to Shor's algorithm, but migration horizon (5 + 3 = 8y) fits within estimated CRQC timeline (12y). Critical: 1024-bit RSA key length is severely weak classically."
+        },
+        {
+          "name": "ecdat:nist_replacement",
+          "value": "ML-KEM (FIPS 203) for key encapsulation; ML-DSA (FIPS 204) / SLH-DSA (FIPS 205) for digital signatures"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto-asset-051f0cfc-831b-47ce-b8c4-67928126a113",
+      "name": "ECDSA",
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "signature",
+          "parameterSetIdentifier": "256",
+          "curve": "SECP256R1",
+          "classicalSecurityLevel": 128,
+          "nistQuantumSecurityLevel": 0
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "sample_targets\\vulnerable_app\\app.py",
+            "line": 43
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "ecdat:detection_method",
+          "value": "ast_parser"
+        },
+        {
+          "name": "ecdat:quantum_status",
+          "value": "vulnerable_shor"
+        },
+        {
+          "name": "ecdat:confidence",
+          "value": "0.99"
+        },
+        {
+          "name": "ecdat:risk_score",
+          "value": "45.0"
+        },
+        {
+          "name": "ecdat:risk_level",
+          "value": "medium"
+        },
+        {
+          "name": "ecdat:is_at_risk",
+          "value": "false"
+        },
+        {
+          "name": "ecdat:mosca_x",
+          "value": "5.0"
+        },
+        {
+          "name": "ecdat:mosca_y",
+          "value": "3.0"
+        },
+        {
+          "name": "ecdat:mosca_z",
+          "value": "12.0"
+        },
+        {
+          "name": "ecdat:explanation",
+          "value": "ECDSA is vulnerable to Shor's algorithm, but migration horizon (5 + 3 = 8y) fits within estimated CRQC timeline (12y)."
+        },
+        {
+          "name": "ecdat:nist_replacement",
+          "value": "ML-DSA (FIPS 204) or SLH-DSA (FIPS 205)"
+        }
+      ],
+      "version": "SECP256R1"
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto-asset-a3441581-942e-4c82-9389-7ff4f5888523",
+      "name": "TLS 1.0",
+      "cryptoProperties": {
+        "assetType": "protocol",
+        "protocolProperties": {
+          "type": "tls",
+          "version": "TLS 1.0"
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "sample_targets\\vulnerable_app\\app.py",
+            "line": 48
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "ecdat:detection_method",
+          "value": "ast_parser"
+        },
+        {
+          "name": "ecdat:quantum_status",
+          "value": "classically_broken"
+        },
+        {
+          "name": "ecdat:confidence",
+          "value": "0.96"
+        },
+        {
+          "name": "ecdat:risk_score",
+          "value": "80.0"
+        },
+        {
+          "name": "ecdat:risk_level",
+          "value": "critical"
+        },
+        {
+          "name": "ecdat:is_at_risk",
+          "value": "true"
+        },
+        {
+          "name": "ecdat:mosca_x",
+          "value": "5.0"
+        },
+        {
+          "name": "ecdat:mosca_y",
+          "value": "3.0"
+        },
+        {
+          "name": "ecdat:mosca_z",
+          "value": "12.0"
+        },
+        {
+          "name": "ecdat:explanation",
+          "value": "TLS 1.0 is classically broken and obsolete; vulnerable to immediate exploitation today regardless of quantum timeline."
+        },
+        {
+          "name": "ecdat:nist_replacement",
+          "value": "TLS 1.3 with Hybrid/PQC KEM"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto-asset-b13010ae-e071-466e-b36a-84d99bd0b71e",
+      "name": "RSA",
+      "cryptoProperties": {
+        "assetType": "related-crypto-material",
+        "relatedCryptoMaterialProperties": {
+          "type": "secret-key"
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "sample_targets\\vulnerable_app\\app.py",
+            "line": 12
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "ecdat:detection_method",
+          "value": "regex_rule"
+        },
+        {
+          "name": "ecdat:quantum_status",
+          "value": "vulnerable_shor"
+        },
+        {
+          "name": "ecdat:confidence",
+          "value": "1.0"
+        },
+        {
+          "name": "ecdat:risk_score",
+          "value": "79.0"
+        },
+        {
+          "name": "ecdat:risk_level",
+          "value": "high"
+        },
+        {
+          "name": "ecdat:is_at_risk",
+          "value": "true"
+        },
+        {
+          "name": "ecdat:mosca_x",
+          "value": "15.0"
+        },
+        {
+          "name": "ecdat:mosca_y",
+          "value": "3.0"
+        },
+        {
+          "name": "ecdat:mosca_z",
+          "value": "12.0"
+        },
+        {
+          "name": "ecdat:explanation",
+          "value": "RSA protects 15-year data; 15 + 3 > 12, so this is at risk from Shor's algorithm."
+        },
+        {
+          "name": "ecdat:nist_replacement",
+          "value": "ML-KEM (FIPS 203) for key encapsulation; ML-DSA (FIPS 204) / SLH-DSA (FIPS 205) for digital signatures"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto-asset-6e378451-7717-49a4-85ba-78cd5b45d35a",
+      "name": "Hardcoded Secret Key",
+      "cryptoProperties": {
+        "assetType": "related-crypto-material",
+        "relatedCryptoMaterialProperties": {
+          "type": "secret-key"
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "sample_targets\\vulnerable_app\\app.py",
+            "line": 17
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "ecdat:detection_method",
+          "value": "regex_rule"
+        },
+        {
+          "name": "ecdat:quantum_status",
+          "value": "unclassified"
+        },
+        {
+          "name": "ecdat:confidence",
+          "value": "0.85"
+        },
+        {
+          "name": "ecdat:risk_score",
+          "value": "25.0"
+        },
+        {
+          "name": "ecdat:risk_level",
+          "value": "low"
+        },
+        {
+          "name": "ecdat:is_at_risk",
+          "value": "false"
+        },
+        {
+          "name": "ecdat:mosca_x",
+          "value": "1.0"
+        },
+        {
+          "name": "ecdat:mosca_y",
+          "value": "3.0"
+        },
+        {
+          "name": "ecdat:mosca_z",
+          "value": "12.0"
+        },
+        {
+          "name": "ecdat:explanation",
+          "value": "Hardcoded Secret Key is unclassified in the cryptographic catalogue; manual review recommended."
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto-asset-99eb167d-2cff-4fe4-a000-23162df295b3",
+      "name": "SHA-1",
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "digest",
+          "classicalSecurityLevel": 64,
+          "nistQuantumSecurityLevel": 0
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "sample_targets\\vulnerable_app\\app.py",
+            "line": 27
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "ecdat:detection_method",
+          "value": "regex_rule"
+        },
+        {
+          "name": "ecdat:quantum_status",
+          "value": "classically_broken"
+        },
+        {
+          "name": "ecdat:confidence",
+          "value": "0.95"
+        },
+        {
+          "name": "ecdat:risk_score",
+          "value": "80.0"
+        },
+        {
+          "name": "ecdat:risk_level",
+          "value": "critical"
+        },
+        {
+          "name": "ecdat:is_at_risk",
+          "value": "true"
+        },
+        {
+          "name": "ecdat:mosca_x",
+          "value": "5.0"
+        },
+        {
+          "name": "ecdat:mosca_y",
+          "value": "3.0"
+        },
+        {
+          "name": "ecdat:mosca_z",
+          "value": "12.0"
+        },
+        {
+          "name": "ecdat:explanation",
+          "value": "SHA-1 is classically broken and obsolete; vulnerable to immediate exploitation today regardless of quantum timeline."
+        },
+        {
+          "name": "ecdat:nist_replacement",
+          "value": "SHA-256 / SHA-384 / SHA-3"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto-asset-6ee64197-e485-469a-a6aa-1ff9ac9de8af",
+      "name": "AES-256",
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "block-cipher",
+          "parameterSetIdentifier": "1024",
+          "classicalSecurityLevel": 256,
+          "nistQuantumSecurityLevel": 5
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "sample_targets\\vulnerable_app\\app.py",
+            "line": 32
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "ecdat:detection_method",
+          "value": "regex_rule"
+        },
+        {
+          "name": "ecdat:quantum_status",
+          "value": "quantum_safe"
+        },
+        {
+          "name": "ecdat:confidence",
+          "value": "0.95"
+        },
+        {
+          "name": "ecdat:risk_score",
+          "value": "5.0"
+        },
+        {
+          "name": "ecdat:risk_level",
+          "value": "low"
+        },
+        {
+          "name": "ecdat:is_at_risk",
+          "value": "false"
+        },
+        {
+          "name": "ecdat:mosca_x",
+          "value": "5.0"
+        },
+        {
+          "name": "ecdat:mosca_y",
+          "value": "3.0"
+        },
+        {
+          "name": "ecdat:mosca_z",
+          "value": "12.0"
+        },
+        {
+          "name": "ecdat:explanation",
+          "value": "AES-256 is quantum-safe (None needed (Already NIST Quantum-Resistant)); timeline 5 + 3 > 12 does not present quantum compromise risk."
+        },
+        {
+          "name": "ecdat:nist_replacement",
+          "value": "None needed (Already NIST Quantum-Resistant)"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto-asset-abe67fd8-09b7-4677-991a-5fca41936e27",
+      "name": "ECDH",
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "key-agree",
+          "classicalSecurityLevel": 128,
+          "nistQuantumSecurityLevel": 0
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "sample_targets\\vulnerable_app\\app.py",
+            "line": 43
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "ecdat:detection_method",
+          "value": "regex_rule"
+        },
+        {
+          "name": "ecdat:quantum_status",
+          "value": "vulnerable_shor"
+        },
+        {
+          "name": "ecdat:confidence",
+          "value": "0.98"
+        },
+        {
+          "name": "ecdat:risk_score",
+          "value": "45.0"
+        },
+        {
+          "name": "ecdat:risk_level",
+          "value": "medium"
+        },
+        {
+          "name": "ecdat:is_at_risk",
+          "value": "false"
+        },
+        {
+          "name": "ecdat:mosca_x",
+          "value": "5.0"
+        },
+        {
+          "name": "ecdat:mosca_y",
+          "value": "3.0"
+        },
+        {
+          "name": "ecdat:mosca_z",
+          "value": "12.0"
+        },
+        {
+          "name": "ecdat:explanation",
+          "value": "ECDH is vulnerable to Shor's algorithm, but migration horizon (5 + 3 = 8y) fits within estimated CRQC timeline (12y)."
+        },
+        {
+          "name": "ecdat:nist_replacement",
+          "value": "ML-KEM (FIPS 203) or Hybrid (ECDH + ML-KEM)"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto-asset-aa6f7920-85c4-476d-b176-3ba44cda28db",
+      "name": "TLS 1.0",
+      "cryptoProperties": {
+        "assetType": "protocol",
+        "protocolProperties": {
+          "type": "tls",
+          "version": "TLS 1.0"
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "sample_targets\\vulnerable_app\\app.py",
+            "line": 48
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "ecdat:detection_method",
+          "value": "regex_rule"
+        },
+        {
+          "name": "ecdat:quantum_status",
+          "value": "classically_broken"
+        },
+        {
+          "name": "ecdat:confidence",
+          "value": "0.95"
+        },
+        {
+          "name": "ecdat:risk_score",
+          "value": "80.0"
+        },
+        {
+          "name": "ecdat:risk_level",
+          "value": "critical"
+        },
+        {
+          "name": "ecdat:is_at_risk",
+          "value": "true"
+        },
+        {
+          "name": "ecdat:mosca_x",
+          "value": "5.0"
+        },
+        {
+          "name": "ecdat:mosca_y",
+          "value": "3.0"
+        },
+        {
+          "name": "ecdat:mosca_z",
+          "value": "12.0"
+        },
+        {
+          "name": "ecdat:explanation",
+          "value": "TLS 1.0 is classically broken and obsolete; vulnerable to immediate exploitation today regardless of quantum timeline."
+        },
+        {
+          "name": "ecdat:nist_replacement",
+          "value": "TLS 1.3 with Hybrid/PQC KEM"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto-asset-3cb75c26-fc2c-4948-a78b-444264ed380d",
+      "name": "RSA",
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "pke",
+          "mode": "ecb",
+          "classicalSecurityLevel": 80,
+          "nistQuantumSecurityLevel": 0
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "sample_targets\\vulnerable_app\\CryptoService.java",
+            "line": 17
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "ecdat:detection_method",
+          "value": "regex_rule"
+        },
+        {
+          "name": "ecdat:quantum_status",
+          "value": "vulnerable_shor"
+        },
+        {
+          "name": "ecdat:confidence",
+          "value": "0.95"
+        },
+        {
+          "name": "ecdat:risk_score",
+          "value": "45.0"
+        },
+        {
+          "name": "ecdat:risk_level",
+          "value": "medium"
+        },
+        {
+          "name": "ecdat:is_at_risk",
+          "value": "false"
+        },
+        {
+          "name": "ecdat:mosca_x",
+          "value": "5.0"
+        },
+        {
+          "name": "ecdat:mosca_y",
+          "value": "3.0"
+        },
+        {
+          "name": "ecdat:mosca_z",
+          "value": "12.0"
+        },
+        {
+          "name": "ecdat:explanation",
+          "value": "RSA is vulnerable to Shor's algorithm, but migration horizon (5 + 3 = 8y) fits within estimated CRQC timeline (12y)."
+        },
+        {
+          "name": "ecdat:nist_replacement",
+          "value": "ML-KEM (FIPS 203) for key encapsulation; ML-DSA (FIPS 204) / SLH-DSA (FIPS 205) for digital signatures"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto-asset-ea2b93aa-a117-4676-ac1e-9d0c6a651714",
+      "name": "DSA",
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "signature",
+          "parameterSetIdentifier": "1024"
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "sample_targets\\vulnerable_app\\CryptoService.java",
+            "line": 23
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "ecdat:detection_method",
+          "value": "regex_rule"
+        },
+        {
+          "name": "ecdat:quantum_status",
+          "value": "vulnerable_shor"
+        },
+        {
+          "name": "ecdat:confidence",
+          "value": "0.95"
+        },
+        {
+          "name": "ecdat:risk_score",
+          "value": "45.0"
+        },
+        {
+          "name": "ecdat:risk_level",
+          "value": "medium"
+        },
+        {
+          "name": "ecdat:is_at_risk",
+          "value": "false"
+        },
+        {
+          "name": "ecdat:mosca_x",
+          "value": "5.0"
+        },
+        {
+          "name": "ecdat:mosca_y",
+          "value": "3.0"
+        },
+        {
+          "name": "ecdat:mosca_z",
+          "value": "12.0"
+        },
+        {
+          "name": "ecdat:explanation",
+          "value": "DSA is vulnerable to Shor's algorithm, but migration horizon (5 + 3 = 8y) fits within estimated CRQC timeline (12y)."
+        },
+        {
+          "name": "ecdat:nist_replacement",
+          "value": "ML-DSA (FIPS 204) or SLH-DSA (FIPS 205)"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto-asset-5ae967c4-1526-4806-a62d-e36945d7091e",
+      "name": "SHA-1",
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "digest",
+          "classicalSecurityLevel": 64,
+          "nistQuantumSecurityLevel": 0
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "sample_targets\\vulnerable_app\\CryptoService.java",
+            "line": 30
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "ecdat:detection_method",
+          "value": "regex_rule"
+        },
+        {
+          "name": "ecdat:quantum_status",
+          "value": "classically_broken"
+        },
+        {
+          "name": "ecdat:confidence",
+          "value": "0.95"
+        },
+        {
+          "name": "ecdat:risk_score",
+          "value": "80.0"
+        },
+        {
+          "name": "ecdat:risk_level",
+          "value": "critical"
+        },
+        {
+          "name": "ecdat:is_at_risk",
+          "value": "true"
+        },
+        {
+          "name": "ecdat:mosca_x",
+          "value": "5.0"
+        },
+        {
+          "name": "ecdat:mosca_y",
+          "value": "3.0"
+        },
+        {
+          "name": "ecdat:mosca_z",
+          "value": "12.0"
+        },
+        {
+          "name": "ecdat:explanation",
+          "value": "SHA-1 is classically broken and obsolete; vulnerable to immediate exploitation today regardless of quantum timeline."
+        },
+        {
+          "name": "ecdat:nist_replacement",
+          "value": "SHA-256 / SHA-384 / SHA-3"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto-asset-dcf4c8f9-c5ec-493a-a423-a536591e9d86",
+      "name": "DES",
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "block-cipher",
+          "classicalSecurityLevel": 64,
+          "nistQuantumSecurityLevel": 0
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "sample_targets\\vulnerable_app\\CryptoService.java",
+            "line": 36
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "ecdat:detection_method",
+          "value": "regex_rule"
+        },
+        {
+          "name": "ecdat:quantum_status",
+          "value": "classically_broken"
+        },
+        {
+          "name": "ecdat:confidence",
+          "value": "0.9"
+        },
+        {
+          "name": "ecdat:risk_score",
+          "value": "80.0"
+        },
+        {
+          "name": "ecdat:risk_level",
+          "value": "critical"
+        },
+        {
+          "name": "ecdat:is_at_risk",
+          "value": "true"
+        },
+        {
+          "name": "ecdat:mosca_x",
+          "value": "5.0"
+        },
+        {
+          "name": "ecdat:mosca_y",
+          "value": "3.0"
+        },
+        {
+          "name": "ecdat:mosca_z",
+          "value": "12.0"
+        },
+        {
+          "name": "ecdat:explanation",
+          "value": "DES is classically broken and obsolete; vulnerable to immediate exploitation today regardless of quantum timeline."
+        },
+        {
+          "name": "ecdat:nist_replacement",
+          "value": "AES-256-GCM"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto-asset-b81fb744-532a-4b77-b74d-da32f3d4438d",
+      "name": "DES",
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "block-cipher",
+          "mode": "cbc",
+          "classicalSecurityLevel": 64,
+          "nistQuantumSecurityLevel": 0
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "sample_targets\\vulnerable_app\\CryptoService.java",
+            "line": 37
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "ecdat:detection_method",
+          "value": "regex_rule"
+        },
+        {
+          "name": "ecdat:quantum_status",
+          "value": "classically_broken"
+        },
+        {
+          "name": "ecdat:confidence",
+          "value": "0.95"
+        },
+        {
+          "name": "ecdat:risk_score",
+          "value": "80.0"
+        },
+        {
+          "name": "ecdat:risk_level",
+          "value": "critical"
+        },
+        {
+          "name": "ecdat:is_at_risk",
+          "value": "true"
+        },
+        {
+          "name": "ecdat:mosca_x",
+          "value": "5.0"
+        },
+        {
+          "name": "ecdat:mosca_y",
+          "value": "3.0"
+        },
+        {
+          "name": "ecdat:mosca_z",
+          "value": "12.0"
+        },
+        {
+          "name": "ecdat:explanation",
+          "value": "DES is classically broken and obsolete; vulnerable to immediate exploitation today regardless of quantum timeline."
+        },
+        {
+          "name": "ecdat:nist_replacement",
+          "value": "AES-256-GCM"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto-asset-8e151af8-25ea-4ac5-b70a-8c554af8be09",
+      "name": "Hardcoded Secret Key",
+      "cryptoProperties": {
+        "assetType": "related-crypto-material",
+        "relatedCryptoMaterialProperties": {
+          "type": "secret-key"
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "sample_targets\\vulnerable_app\\index.js",
+            "line": 8
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "ecdat:detection_method",
+          "value": "regex_rule"
+        },
+        {
+          "name": "ecdat:quantum_status",
+          "value": "unclassified"
+        },
+        {
+          "name": "ecdat:confidence",
+          "value": "0.85"
+        },
+        {
+          "name": "ecdat:risk_score",
+          "value": "25.0"
+        },
+        {
+          "name": "ecdat:risk_level",
+          "value": "low"
+        },
+        {
+          "name": "ecdat:is_at_risk",
+          "value": "false"
+        },
+        {
+          "name": "ecdat:mosca_x",
+          "value": "5.0"
+        },
+        {
+          "name": "ecdat:mosca_y",
+          "value": "3.0"
+        },
+        {
+          "name": "ecdat:mosca_z",
+          "value": "12.0"
+        },
+        {
+          "name": "ecdat:explanation",
+          "value": "Hardcoded Secret Key is unclassified in the cryptographic catalogue; manual review recommended."
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto-asset-8eb5eca9-6050-4d02-a785-a43f4253bb56",
+      "name": "MD5",
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "digest",
+          "classicalSecurityLevel": 64,
+          "nistQuantumSecurityLevel": 0
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "sample_targets\\vulnerable_app\\index.js",
+            "line": 12
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "ecdat:detection_method",
+          "value": "regex_rule"
+        },
+        {
+          "name": "ecdat:quantum_status",
+          "value": "classically_broken"
+        },
+        {
+          "name": "ecdat:confidence",
+          "value": "0.95"
+        },
+        {
+          "name": "ecdat:risk_score",
+          "value": "80.0"
+        },
+        {
+          "name": "ecdat:risk_level",
+          "value": "critical"
+        },
+        {
+          "name": "ecdat:is_at_risk",
+          "value": "true"
+        },
+        {
+          "name": "ecdat:mosca_x",
+          "value": "5.0"
+        },
+        {
+          "name": "ecdat:mosca_y",
+          "value": "3.0"
+        },
+        {
+          "name": "ecdat:mosca_z",
+          "value": "12.0"
+        },
+        {
+          "name": "ecdat:explanation",
+          "value": "MD5 is classically broken and obsolete; vulnerable to immediate exploitation today regardless of quantum timeline."
+        },
+        {
+          "name": "ecdat:nist_replacement",
+          "value": "SHA-256 / SHA-384 / SHA-3"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto-asset-871521e3-5dd1-498c-a050-e1e963229ba9",
+      "name": "AES-128",
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "block-cipher",
+          "parameterSetIdentifier": "128",
+          "mode": "cbc",
+          "classicalSecurityLevel": 128,
+          "nistQuantumSecurityLevel": 1
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "sample_targets\\vulnerable_app\\index.js",
+            "line": 17
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "ecdat:detection_method",
+          "value": "regex_rule"
+        },
+        {
+          "name": "ecdat:quantum_status",
+          "value": "weakened_grover"
+        },
+        {
+          "name": "ecdat:confidence",
+          "value": "0.95"
+        },
+        {
+          "name": "ecdat:risk_score",
+          "value": "30.0"
+        },
+        {
+          "name": "ecdat:risk_level",
+          "value": "low"
+        },
+        {
+          "name": "ecdat:is_at_risk",
+          "value": "false"
+        },
+        {
+          "name": "ecdat:mosca_x",
+          "value": "5.0"
+        },
+        {
+          "name": "ecdat:mosca_y",
+          "value": "3.0"
+        },
+        {
+          "name": "ecdat:mosca_z",
+          "value": "12.0"
+        },
+        {
+          "name": "ecdat:explanation",
+          "value": "AES-128 has reduced quantum security margin under Grover's search, but current migration window allows scheduled upgrade."
+        },
+        {
+          "name": "ecdat:nist_replacement",
+          "value": "AES-256 (NIST PQC Security Category 5)"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto-asset-b7b213d2-c68b-48fa-86f5-1dce8ec75713",
+      "name": "RSA",
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "pke",
+          "parameterSetIdentifier": "2048",
+          "classicalSecurityLevel": 112,
+          "nistQuantumSecurityLevel": 0
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "sample_targets\\vulnerable_app\\index.js",
+            "line": 23
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "ecdat:detection_method",
+          "value": "regex_rule"
+        },
+        {
+          "name": "ecdat:quantum_status",
+          "value": "vulnerable_shor"
+        },
+        {
+          "name": "ecdat:confidence",
+          "value": "0.95"
+        },
+        {
+          "name": "ecdat:risk_score",
+          "value": "45.0"
+        },
+        {
+          "name": "ecdat:risk_level",
+          "value": "medium"
+        },
+        {
+          "name": "ecdat:is_at_risk",
+          "value": "false"
+        },
+        {
+          "name": "ecdat:mosca_x",
+          "value": "5.0"
+        },
+        {
+          "name": "ecdat:mosca_y",
+          "value": "3.0"
+        },
+        {
+          "name": "ecdat:mosca_z",
+          "value": "12.0"
+        },
+        {
+          "name": "ecdat:explanation",
+          "value": "RSA is vulnerable to Shor's algorithm, but migration horizon (5 + 3 = 8y) fits within estimated CRQC timeline (12y)."
+        },
+        {
+          "name": "ecdat:nist_replacement",
+          "value": "ML-KEM (FIPS 203) for key encapsulation; ML-DSA (FIPS 204) / SLH-DSA (FIPS 205) for digital signatures"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto-asset-51bc8183-8f12-4612-b73a-2f4ec3178c24",
+      "name": "TLS 1.0",
+      "cryptoProperties": {
+        "assetType": "protocol",
+        "protocolProperties": {
+          "type": "tls",
+          "version": "TLS 1.0"
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "sample_targets\\vulnerable_app\\nginx.conf",
+            "line": 9
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "ecdat:detection_method",
+          "value": "regex_rule"
+        },
+        {
+          "name": "ecdat:quantum_status",
+          "value": "classically_broken"
+        },
+        {
+          "name": "ecdat:confidence",
+          "value": "0.88"
+        },
+        {
+          "name": "ecdat:risk_score",
+          "value": "80.0"
+        },
+        {
+          "name": "ecdat:risk_level",
+          "value": "critical"
+        },
+        {
+          "name": "ecdat:is_at_risk",
+          "value": "true"
+        },
+        {
+          "name": "ecdat:mosca_x",
+          "value": "5.0"
+        },
+        {
+          "name": "ecdat:mosca_y",
+          "value": "3.0"
+        },
+        {
+          "name": "ecdat:mosca_z",
+          "value": "12.0"
+        },
+        {
+          "name": "ecdat:explanation",
+          "value": "TLS 1.0 is classically broken and obsolete; vulnerable to immediate exploitation today regardless of quantum timeline."
+        },
+        {
+          "name": "ecdat:nist_replacement",
+          "value": "TLS 1.3 with Hybrid/PQC KEM"
+        }
+      ]
+    }
+  ],
+  "dependencies": []
+}

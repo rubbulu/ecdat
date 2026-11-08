@@ -1,0 +1,1333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ECDAT Executive Cryptographic & Post-Quantum Risk Report</title>
+    <style>
+        :root {
+            --primary: #1e3a8a;
+            --primary-light: #3b82f6;
+            --danger: #dc2626;
+            --warning: #f59e0b;
+            --success: #10b981;
+            --bg-card: #ffffff;
+            --text-main: #1f2937;
+            --text-muted: #6b7280;
+            --border: #e5e7eb;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            color: var(--text-main);
+            background: #f9fafb;
+            line-height: 1.5;
+            padding: 30px;
+        }
+        .container { max-width: 1200px; margin: 0 auto; background: #fff; padding: 40px; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
+        .header { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 2px solid var(--border); padding-bottom: 24px; margin-bottom: 30px; }
+        .header-title h1 { font-size: 28px; color: var(--primary); font-weight: 800; }
+        .header-title p { color: var(--text-muted); font-size: 14px; margin-top: 4px; }
+        .badge { display: inline-block; padding: 4px 10px; border-radius: 9999px; font-size: 12px; font-weight: 700; text-transform: uppercase; }
+        .badge-danger { background: #fee2e2; color: #991b1b; }
+        .badge-warning { background: #fef3c7; color: #92400e; }
+        .badge-success { background: #d1fae5; color: #065f46; }
+        .badge-info { background: #dbeafe; color: #1e40af; }
+        
+        .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 35px; }
+        .kpi-card { background: #f8fafc; border: 1px solid var(--border); border-radius: 8px; padding: 20px; text-align: center; }
+        .kpi-value { font-size: 32px; font-weight: 800; color: var(--primary); }
+        .kpi-value.danger { color: var(--danger); }
+        .kpi-value.warning { color: var(--warning); }
+        .kpi-label { font-size: 13px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; margin-top: 4px; }
+
+        .section { margin-bottom: 40px; }
+        .section-title { font-size: 20px; font-weight: 700; color: var(--primary); margin-bottom: 16px; border-left: 4px solid var(--primary-light); padding-left: 10px; }
+
+        .mosca-box { background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px; padding: 20px; margin-bottom: 24px; }
+        .mosca-formula { font-size: 20px; font-family: monospace; font-weight: bold; color: var(--primary); text-align: center; margin: 12px 0; }
+
+        table { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 13px; }
+        th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--border); }
+        th { background: #f8fafc; font-weight: 700; color: var(--text-muted); text-transform: uppercase; font-size: 11px; }
+        tr:hover { background: #f1f5f9; }
+
+        .score-pill { font-weight: 800; padding: 3px 8px; border-radius: 6px; }
+        .score-crit { background: #fecaca; color: #b91c1c; }
+        .score-high { background: #fed7aa; color: #c2410c; }
+        .score-med { background: #fef08a; color: #854d0e; }
+        .score-low { background: #bbf7d0; color: #15803d; }
+
+        .progress-bar-bg { background: #e2e8f0; height: 10px; border-radius: 9999px; overflow: hidden; margin-top: 6px; }
+        .progress-bar-fill { height: 100%; border-radius: 9999px; }
+
+        @media print {
+            body { padding: 0; background: #fff; }
+            .container { box-shadow: none; border: none; padding: 10px; max-width: 100%; }
+            tr { page-break-inside: avoid; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-title">
+                <h1>ECDAT Quantum Cryptographic Risk Report</h1>
+                <p>Enterprise Cryptographic Discovery & Analysis Tool | Threws Odyssey 2026</p>
+                <p><strong>Target Analyzed:</strong> ECDAT Vulnerable Benchmark App &bull; Generated: 2026-11-08 19:58:07 UTC</p>
+            </div>
+            <div>
+                <span class="badge badge-danger">
+                    ACTION REQUIRED: QUANTUM EXPOSURE
+                </span>
+            </div>
+        </div>
+
+        <!-- KPI Executive Scorecard -->
+        <div class="kpi-grid">
+            <div class="kpi-card">
+                <div class="kpi-value">45</div>
+                <div class="kpi-label">Total Crypto Assets</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-value danger">23</div>
+                <div class="kpi-label">At Risk (Mosca X+Y>Z)</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-value warning">37.8%</div>
+                <div class="kpi-label">Quantum Vulnerable %</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-value danger">24</div>
+                <div class="kpi-label">Critical / High Severity</div>
+            </div>
+        </div>
+
+        <!-- Mosca Inequality Section -->
+        <div class="section">
+            <h2 class="section-title">Quantum Risk Horizon (Mosca's Theorem)</h2>
+            <div class="mosca-box">
+                <p>Mosca's Theorem establishes that cryptographic assets become compromised today under the <em>"Harvest Now, Decrypt Later"</em> threat model when the time required to migrate and retain confidentiality exceeds the quantum computer arrival horizon:</p>
+                <div class="mosca-formula">Risk Alert Triggered If: X (Shelf-Life) + Y (Migration Time) > Z (CRQC Horizon)</div>
+                <p><strong>Configured Assumptions:</strong> Migration timeline <strong>Y = 3.0 years</strong> | Quantum collapse horizon <strong>Z = 12.0 years</strong> (estimated ~2038).</p>
+            </div>
+        </div>
+
+        <!-- Top Urgency Risks -->
+        <div class="section">
+            <h2 class="section-title">Top 10 Cryptographic Risks Requiring Immediate Remediation</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Asset Name</th>
+                        <th>Risk Score</th>
+                        <th>Criticality</th>
+                        <th>Location</th>
+                        <th>Plain-English Threat Analysis</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                    <tr>
+                        <td><strong>TLS 1.0</strong></td>
+                        <td>
+                            <span class="score-pill score-crit">
+                                80.0 (CRITICAL)
+                            </span>
+                        </td>
+                        <td><span class="badge badge-info">LOW</span></td>
+                        <td><code>sample_targets\vulnerable_app\.env:2</code></td>
+                        <td>TLS 1.0 is classically broken and obsolete; vulnerable to immediate exploitation today regardless of quantum timeline.</td>
+                    </tr>
+                    
+                    <tr>
+                        <td><strong>RC4</strong></td>
+                        <td>
+                            <span class="score-pill score-crit">
+                                80.0 (CRITICAL)
+                            </span>
+                        </td>
+                        <td><span class="badge badge-info">LOW</span></td>
+                        <td><code>sample_targets\vulnerable_app\.env:3</code></td>
+                        <td>RC4 is classically broken and obsolete; vulnerable to immediate exploitation today regardless of quantum timeline.</td>
+                    </tr>
+                    
+                    <tr>
+                        <td><strong>TLS 1.0</strong></td>
+                        <td>
+                            <span class="score-pill score-crit">
+                                80.0 (CRITICAL)
+                            </span>
+                        </td>
+                        <td><span class="badge badge-info">LOW</span></td>
+                        <td><code>sample_targets\vulnerable_app\nginx.conf:9</code></td>
+                        <td>TLS 1.0 is classically broken and obsolete; vulnerable to immediate exploitation today regardless of quantum timeline.</td>
+                    </tr>
+                    
+                    <tr>
+                        <td><strong>TLS 1.1</strong></td>
+                        <td>
+                            <span class="score-pill score-crit">
+                                80.0 (CRITICAL)
+                            </span>
+                        </td>
+                        <td><span class="badge badge-info">LOW</span></td>
+                        <td><code>sample_targets\vulnerable_app\nginx.conf:9</code></td>
+                        <td>TLS 1.1 is classically broken and obsolete; vulnerable to immediate exploitation today regardless of quantum timeline.</td>
+                    </tr>
+                    
+                    <tr>
+                        <td><strong>TLS 1.0</strong></td>
+                        <td>
+                            <span class="score-pill score-crit">
+                                80.0 (CRITICAL)
+                            </span>
+                        </td>
+                        <td><span class="badge badge-info">LOW</span></td>
+                        <td><code>sample_targets\vulnerable_app\nginx.conf:9</code></td>
+                        <td>TLS 1.0 is classically broken and obsolete; vulnerable to immediate exploitation today regardless of quantum timeline.</td>
+                    </tr>
+                    
+                    <tr>
+                        <td><strong>RC4</strong></td>
+                        <td>
+                            <span class="score-pill score-crit">
+                                80.0 (CRITICAL)
+                            </span>
+                        </td>
+                        <td><span class="badge badge-info">LOW</span></td>
+                        <td><code>sample_targets\vulnerable_app\nginx.conf:12</code></td>
+                        <td>RC4 is classically broken and obsolete; vulnerable to immediate exploitation today regardless of quantum timeline.</td>
+                    </tr>
+                    
+                    <tr>
+                        <td><strong>3DES</strong></td>
+                        <td>
+                            <span class="score-pill score-crit">
+                                80.0 (CRITICAL)
+                            </span>
+                        </td>
+                        <td><span class="badge badge-info">LOW</span></td>
+                        <td><code>sample_targets\vulnerable_app\nginx.conf:12</code></td>
+                        <td>3DES is classically broken and obsolete; vulnerable to immediate exploitation today regardless of quantum timeline.</td>
+                    </tr>
+                    
+                    <tr>
+                        <td><strong>MD5</strong></td>
+                        <td>
+                            <span class="score-pill score-crit">
+                                80.0 (CRITICAL)
+                            </span>
+                        </td>
+                        <td><span class="badge badge-info">LOW</span></td>
+                        <td><code>sample_targets\vulnerable_app\nginx.conf:12</code></td>
+                        <td>MD5 is classically broken and obsolete; vulnerable to immediate exploitation today regardless of quantum timeline.</td>
+                    </tr>
+                    
+                    <tr>
+                        <td><strong>3DES</strong></td>
+                        <td>
+                            <span class="score-pill score-crit">
+                                80.0 (CRITICAL)
+                            </span>
+                        </td>
+                        <td><span class="badge badge-info">LOW</span></td>
+                        <td><code>sample_targets\vulnerable_app\sshd_config:7</code></td>
+                        <td>3DES is classically broken and obsolete; vulnerable to immediate exploitation today regardless of quantum timeline.</td>
+                    </tr>
+                    
+                    <tr>
+                        <td><strong>crypto-js</strong></td>
+                        <td>
+                            <span class="score-pill score-crit">
+                                80.0 (CRITICAL)
+                            </span>
+                        </td>
+                        <td><span class="badge badge-info">LOW</span></td>
+                        <td><code>sample_targets\vulnerable_app\package.json:7</code></td>
+                        <td>crypto-js is classically broken and obsolete; vulnerable to immediate exploitation today regardless of quantum timeline.</td>
+                    </tr>
+                    
+                </tbody>
+            </table>
+        </div>
+
+        <!-- PQC Migration Recommendations -->
+        <div class="section">
+            <h2 class="section-title">Prioritized Post-Quantum Migration Action Plan</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Current Primitive</th>
+                        <th>Recommended Replacement</th>
+                        <th>Approach</th>
+                        <th>Effort</th>
+                        <th>Size & Latency Impact</th>
+                        <th>Recommended Implementations</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                    <tr>
+                        <td><strong>TLS 1.0</strong></td>
+                        <td><strong style="color: var(--primary);">TLS 1.3 with Hybrid Post-Quantum Key Exchange (X25519MLKEM768)</strong></td>
+                        <td><span class="badge badge-warning">HYBRID</span></td>
+                        <td>MEDIUM</td>
+                        <td>ClientHello / ServerHello packets expand by ~1.2 KB for PQC key shares.</td>
+                        <td>OpenSSL 3.5+, BoringSSL, Nginx (built with OpenSSL 3.5+), HAProxy</td>
+                    </tr>
+                    
+                    <tr>
+                        <td><strong>RC4</strong></td>
+                        <td><strong style="color: var(--primary);">AES-256-GCM (NIST SP 800-38D) or ChaCha20-Poly1305 (RFC 8439)</strong></td>
+                        <td><span class="badge badge-warning">CLASSICAL_UPGRADE</span></td>
+                        <td>LOW</td>
+                        <td>256-bit key + 96-bit nonce + 128-bit authentication tag.</td>
+                        <td>Standard library, cryptography, OpenSSL, Java javax.crypto</td>
+                    </tr>
+                    
+                    <tr>
+                        <td><strong>TLS 1.0</strong></td>
+                        <td><strong style="color: var(--primary);">TLS 1.3 with Hybrid Post-Quantum Key Exchange (X25519MLKEM768)</strong></td>
+                        <td><span class="badge badge-warning">HYBRID</span></td>
+                        <td>MEDIUM</td>
+                        <td>ClientHello / ServerHello packets expand by ~1.2 KB for PQC key shares.</td>
+                        <td>OpenSSL 3.5+, BoringSSL, Nginx (built with OpenSSL 3.5+), HAProxy</td>
+                    </tr>
+                    
+                    <tr>
+                        <td><strong>TLS 1.1</strong></td>
+                        <td><strong style="color: var(--primary);">TLS 1.3 with Hybrid Post-Quantum Key Exchange (X25519MLKEM768)</strong></td>
+                        <td><span class="badge badge-warning">HYBRID</span></td>
+                        <td>MEDIUM</td>
+                        <td>ClientHello / ServerHello packets expand by ~1.2 KB for PQC key shares.</td>
+                        <td>OpenSSL 3.5+, BoringSSL, Nginx (built with OpenSSL 3.5+), HAProxy</td>
+                    </tr>
+                    
+                    <tr>
+                        <td><strong>TLS 1.0</strong></td>
+                        <td><strong style="color: var(--primary);">TLS 1.3 with Hybrid Post-Quantum Key Exchange (X25519MLKEM768)</strong></td>
+                        <td><span class="badge badge-warning">HYBRID</span></td>
+                        <td>MEDIUM</td>
+                        <td>ClientHello / ServerHello packets expand by ~1.2 KB for PQC key shares.</td>
+                        <td>OpenSSL 3.5+, BoringSSL, Nginx (built with OpenSSL 3.5+), HAProxy</td>
+                    </tr>
+                    
+                    <tr>
+                        <td><strong>RC4</strong></td>
+                        <td><strong style="color: var(--primary);">AES-256-GCM (NIST SP 800-38D) or ChaCha20-Poly1305 (RFC 8439)</strong></td>
+                        <td><span class="badge badge-warning">CLASSICAL_UPGRADE</span></td>
+                        <td>LOW</td>
+                        <td>256-bit key + 96-bit nonce + 128-bit authentication tag.</td>
+                        <td>Standard library, cryptography, OpenSSL, Java javax.crypto</td>
+                    </tr>
+                    
+                    <tr>
+                        <td><strong>3DES</strong></td>
+                        <td><strong style="color: var(--primary);">AES-256-GCM (NIST SP 800-38D) or ChaCha20-Poly1305 (RFC 8439)</strong></td>
+                        <td><span class="badge badge-warning">CLASSICAL_UPGRADE</span></td>
+                        <td>LOW</td>
+                        <td>256-bit key + 96-bit nonce + 128-bit authentication tag.</td>
+                        <td>Standard library, cryptography, OpenSSL, Java javax.crypto</td>
+                    </tr>
+                    
+                    <tr>
+                        <td><strong>MD5</strong></td>
+                        <td><strong style="color: var(--primary);">SHA-256 or SHA-3 (NIST FIPS 202) / SHA-384</strong></td>
+                        <td><span class="badge badge-warning">CLASSICAL_UPGRADE</span></td>
+                        <td>LOW</td>
+                        <td>Digest size increases from 128/160 bits to 256/384 bits (32/48 bytes).</td>
+                        <td>Standard library hashlib, crypto, OpenSSL, java.security.MessageDigest</td>
+                    </tr>
+                    
+                    <tr>
+                        <td><strong>3DES</strong></td>
+                        <td><strong style="color: var(--primary);">AES-256-GCM (NIST SP 800-38D) or ChaCha20-Poly1305 (RFC 8439)</strong></td>
+                        <td><span class="badge badge-warning">CLASSICAL_UPGRADE</span></td>
+                        <td>LOW</td>
+                        <td>256-bit key + 96-bit nonce + 128-bit authentication tag.</td>
+                        <td>Standard library, cryptography, OpenSSL, Java javax.crypto</td>
+                    </tr>
+                    
+                    <tr>
+                        <td><strong>crypto-js</strong></td>
+                        <td><strong style="color: var(--primary);">Upgrade to NIST standardized quantum-safe primitive</strong></td>
+                        <td><span class="badge badge-warning">HYBRID</span></td>
+                        <td>MEDIUM</td>
+                        <td>Moderate change in public key or ciphertext dimensions.</td>
+                        <td>liboqs, OpenSSL 3.5+, Bouncy Castle 1.78+</td>
+                    </tr>
+                    
+                    <tr>
+                        <td><strong>pycrypto</strong></td>
+                        <td><strong style="color: var(--primary);">Upgrade to NIST standardized quantum-safe primitive</strong></td>
+                        <td><span class="badge badge-warning">HYBRID</span></td>
+                        <td>MEDIUM</td>
+                        <td>Moderate change in public key or ciphertext dimensions.</td>
+                        <td>liboqs, OpenSSL 3.5+, Bouncy Castle 1.78+</td>
+                    </tr>
+                    
+                    <tr>
+                        <td><strong>MD5</strong></td>
+                        <td><strong style="color: var(--primary);">SHA-256 or SHA-3 (NIST FIPS 202) / SHA-384</strong></td>
+                        <td><span class="badge badge-warning">CLASSICAL_UPGRADE</span></td>
+                        <td>LOW</td>
+                        <td>Digest size increases from 128/160 bits to 256/384 bits (32/48 bytes).</td>
+                        <td>Standard library hashlib, crypto, OpenSSL, java.security.MessageDigest</td>
+                    </tr>
+                    
+                    <tr>
+                        <td><strong>SHA-1</strong></td>
+                        <td><strong style="color: var(--primary);">SHA-256 or SHA-3 (NIST FIPS 202) / SHA-384</strong></td>
+                        <td><span class="badge badge-warning">CLASSICAL_UPGRADE</span></td>
+                        <td>LOW</td>
+                        <td>Digest size increases from 128/160 bits to 256/384 bits (32/48 bytes).</td>
+                        <td>Standard library hashlib, crypto, OpenSSL, java.security.MessageDigest</td>
+                    </tr>
+                    
+                    <tr>
+                        <td><strong>TLS 1.0</strong></td>
+                        <td><strong style="color: var(--primary);">TLS 1.3 with Hybrid Post-Quantum Key Exchange (X25519MLKEM768)</strong></td>
+                        <td><span class="badge badge-warning">HYBRID</span></td>
+                        <td>MEDIUM</td>
+                        <td>ClientHello / ServerHello packets expand by ~1.2 KB for PQC key shares.</td>
+                        <td>OpenSSL 3.5+, BoringSSL, Nginx (built with OpenSSL 3.5+), HAProxy</td>
+                    </tr>
+                    
+                    <tr>
+                        <td><strong>SHA-1</strong></td>
+                        <td><strong style="color: var(--primary);">SHA-256 or SHA-3 (NIST FIPS 202) / SHA-384</strong></td>
+                        <td><span class="badge badge-warning">CLASSICAL_UPGRADE</span></td>
+                        <td>LOW</td>
+                        <td>Digest size increases from 128/160 bits to 256/384 bits (32/48 bytes).</td>
+                        <td>Standard library hashlib, crypto, OpenSSL, java.security.MessageDigest</td>
+                    </tr>
+                    
+                    <tr>
+                        <td><strong>TLS 1.0</strong></td>
+                        <td><strong style="color: var(--primary);">TLS 1.3 with Hybrid Post-Quantum Key Exchange (X25519MLKEM768)</strong></td>
+                        <td><span class="badge badge-warning">HYBRID</span></td>
+                        <td>MEDIUM</td>
+                        <td>ClientHello / ServerHello packets expand by ~1.2 KB for PQC key shares.</td>
+                        <td>OpenSSL 3.5+, BoringSSL, Nginx (built with OpenSSL 3.5+), HAProxy</td>
+                    </tr>
+                    
+                    <tr>
+                        <td><strong>SHA-1</strong></td>
+                        <td><strong style="color: var(--primary);">SHA-256 or SHA-3 (NIST FIPS 202) / SHA-384</strong></td>
+                        <td><span class="badge badge-warning">CLASSICAL_UPGRADE</span></td>
+                        <td>LOW</td>
+                        <td>Digest size increases from 128/160 bits to 256/384 bits (32/48 bytes).</td>
+                        <td>Standard library hashlib, crypto, OpenSSL, java.security.MessageDigest</td>
+                    </tr>
+                    
+                    <tr>
+                        <td><strong>DES</strong></td>
+                        <td><strong style="color: var(--primary);">AES-256-GCM (NIST SP 800-38D) or ChaCha20-Poly1305 (RFC 8439)</strong></td>
+                        <td><span class="badge badge-warning">CLASSICAL_UPGRADE</span></td>
+                        <td>LOW</td>
+                        <td>256-bit key + 96-bit nonce + 128-bit authentication tag.</td>
+                        <td>Standard library, cryptography, OpenSSL, Java javax.crypto</td>
+                    </tr>
+                    
+                    <tr>
+                        <td><strong>DES</strong></td>
+                        <td><strong style="color: var(--primary);">AES-256-GCM (NIST SP 800-38D) or ChaCha20-Poly1305 (RFC 8439)</strong></td>
+                        <td><span class="badge badge-warning">CLASSICAL_UPGRADE</span></td>
+                        <td>LOW</td>
+                        <td>256-bit key + 96-bit nonce + 128-bit authentication tag.</td>
+                        <td>Standard library, cryptography, OpenSSL, Java javax.crypto</td>
+                    </tr>
+                    
+                    <tr>
+                        <td><strong>MD5</strong></td>
+                        <td><strong style="color: var(--primary);">SHA-256 or SHA-3 (NIST FIPS 202) / SHA-384</strong></td>
+                        <td><span class="badge badge-warning">CLASSICAL_UPGRADE</span></td>
+                        <td>LOW</td>
+                        <td>Digest size increases from 128/160 bits to 256/384 bits (32/48 bytes).</td>
+                        <td>Standard library hashlib, crypto, OpenSSL, java.security.MessageDigest</td>
+                    </tr>
+                    
+                    <tr>
+                        <td><strong>TLS 1.0</strong></td>
+                        <td><strong style="color: var(--primary);">TLS 1.3 with Hybrid Post-Quantum Key Exchange (X25519MLKEM768)</strong></td>
+                        <td><span class="badge badge-warning">HYBRID</span></td>
+                        <td>MEDIUM</td>
+                        <td>ClientHello / ServerHello packets expand by ~1.2 KB for PQC key shares.</td>
+                        <td>OpenSSL 3.5+, BoringSSL, Nginx (built with OpenSSL 3.5+), HAProxy</td>
+                    </tr>
+                    
+                    <tr>
+                        <td><strong>RSA-2048</strong></td>
+                        <td><strong style="color: var(--primary);">ML-KEM-768 (NIST FIPS 203) / Hybrid X25519MLKEM768</strong></td>
+                        <td><span class="badge badge-warning">HYBRID</span></td>
+                        <td>MEDIUM</td>
+                        <td>ML-KEM-768 public key is 1,184 bytes & ciphertext is 1,088 bytes (vs X25519 32 bytes). Handshake size increases by ~2.2 KB.</td>
+                        <td>liboqs, OpenSSL 3.5+, BoringSSL, aws-lc, Bouncy Castle 1.78+, python-oqs</td>
+                    </tr>
+                    
+                    <tr>
+                        <td><strong>RSA</strong></td>
+                        <td><strong style="color: var(--primary);">ML-KEM-768 (NIST FIPS 203) / Hybrid X25519MLKEM768</strong></td>
+                        <td><span class="badge badge-warning">HYBRID</span></td>
+                        <td>MEDIUM</td>
+                        <td>ML-KEM-768 public key is 1,184 bytes & ciphertext is 1,088 bytes (vs X25519 32 bytes). Handshake size increases by ~2.2 KB.</td>
+                        <td>liboqs, OpenSSL 3.5+, BoringSSL, aws-lc, Bouncy Castle 1.78+, python-oqs</td>
+                    </tr>
+                    
+                    <tr>
+                        <td><strong>RSA-1024</strong></td>
+                        <td><strong style="color: var(--primary);">ML-KEM-768 (NIST FIPS 203) / Hybrid X25519MLKEM768</strong></td>
+                        <td><span class="badge badge-warning">HYBRID</span></td>
+                        <td>MEDIUM</td>
+                        <td>ML-KEM-768 public key is 1,184 bytes & ciphertext is 1,088 bytes (vs X25519 32 bytes). Handshake size increases by ~2.2 KB.</td>
+                        <td>liboqs, OpenSSL 3.5+, BoringSSL, aws-lc, Bouncy Castle 1.78+, python-oqs</td>
+                    </tr>
+                    
+                    <tr>
+                        <td><strong>DH</strong></td>
+                        <td><strong style="color: var(--primary);">ML-KEM-768 (NIST FIPS 203) / Hybrid X25519MLKEM768</strong></td>
+                        <td><span class="badge badge-warning">HYBRID</span></td>
+                        <td>MEDIUM</td>
+                        <td>ML-KEM-768 public key is 1,184 bytes & ciphertext is 1,088 bytes (vs X25519 32 bytes). Handshake size increases by ~2.2 KB.</td>
+                        <td>liboqs, OpenSSL 3.5+, BoringSSL, aws-lc, Bouncy Castle 1.78+, python-oqs</td>
+                    </tr>
+                    
+                    <tr>
+                        <td><strong>DH</strong></td>
+                        <td><strong style="color: var(--primary);">ML-KEM-768 (NIST FIPS 203) / Hybrid X25519MLKEM768</strong></td>
+                        <td><span class="badge badge-warning">HYBRID</span></td>
+                        <td>MEDIUM</td>
+                        <td>ML-KEM-768 public key is 1,184 bytes & ciphertext is 1,088 bytes (vs X25519 32 bytes). Handshake size increases by ~2.2 KB.</td>
+                        <td>liboqs, OpenSSL 3.5+, BoringSSL, aws-lc, Bouncy Castle 1.78+, python-oqs</td>
+                    </tr>
+                    
+                    <tr>
+                        <td><strong>RSA</strong></td>
+                        <td><strong style="color: var(--primary);">ML-KEM-768 (NIST FIPS 203) / Hybrid X25519MLKEM768</strong></td>
+                        <td><span class="badge badge-warning">HYBRID</span></td>
+                        <td>MEDIUM</td>
+                        <td>ML-KEM-768 public key is 1,184 bytes & ciphertext is 1,088 bytes (vs X25519 32 bytes). Handshake size increases by ~2.2 KB.</td>
+                        <td>liboqs, OpenSSL 3.5+, BoringSSL, aws-lc, Bouncy Castle 1.78+, python-oqs</td>
+                    </tr>
+                    
+                    <tr>
+                        <td><strong>golang.org/x/crypto</strong></td>
+                        <td><strong style="color: var(--primary);">Upgrade to NIST standardized quantum-safe primitive</strong></td>
+                        <td><span class="badge badge-warning">HYBRID</span></td>
+                        <td>MEDIUM</td>
+                        <td>Moderate change in public key or ciphertext dimensions.</td>
+                        <td>liboqs, OpenSSL 3.5+, Bouncy Castle 1.78+</td>
+                    </tr>
+                    
+                    <tr>
+                        <td><strong>node-forge</strong></td>
+                        <td><strong style="color: var(--primary);">Upgrade to NIST standardized quantum-safe primitive</strong></td>
+                        <td><span class="badge badge-warning">HYBRID</span></td>
+                        <td>MEDIUM</td>
+                        <td>Moderate change in public key or ciphertext dimensions.</td>
+                        <td>liboqs, OpenSSL 3.5+, Bouncy Castle 1.78+</td>
+                    </tr>
+                    
+                    <tr>
+                        <td><strong>bouncycastle</strong></td>
+                        <td><strong style="color: var(--primary);">Upgrade to NIST standardized quantum-safe primitive</strong></td>
+                        <td><span class="badge badge-warning">HYBRID</span></td>
+                        <td>MEDIUM</td>
+                        <td>Moderate change in public key or ciphertext dimensions.</td>
+                        <td>liboqs, OpenSSL 3.5+, Bouncy Castle 1.78+</td>
+                    </tr>
+                    
+                    <tr>
+                        <td><strong>cryptography</strong></td>
+                        <td><strong style="color: var(--primary);">Upgrade to NIST standardized quantum-safe primitive</strong></td>
+                        <td><span class="badge badge-warning">HYBRID</span></td>
+                        <td>MEDIUM</td>
+                        <td>Moderate change in public key or ciphertext dimensions.</td>
+                        <td>liboqs, OpenSSL 3.5+, Bouncy Castle 1.78+</td>
+                    </tr>
+                    
+                    <tr>
+                        <td><strong>pyOpenSSL</strong></td>
+                        <td><strong style="color: var(--primary);">Upgrade to NIST standardized quantum-safe primitive</strong></td>
+                        <td><span class="badge badge-warning">HYBRID</span></td>
+                        <td>MEDIUM</td>
+                        <td>Moderate change in public key or ciphertext dimensions.</td>
+                        <td>liboqs, OpenSSL 3.5+, Bouncy Castle 1.78+</td>
+                    </tr>
+                    
+                    <tr>
+                        <td><strong>ECDSA-256</strong></td>
+                        <td><strong style="color: var(--primary);">ML-DSA-65 (NIST FIPS 204 / Dilithium)</strong></td>
+                        <td><span class="badge badge-warning">HYBRID</span></td>
+                        <td>MEDIUM</td>
+                        <td>ML-DSA-65 public key is 1,952 bytes; signature is 3,309 bytes (vs ECDSA P-256 64 bytes; ~50x larger).</td>
+                        <td>liboqs, OpenSSL 3.5+, Bouncy Castle 1.78+, aws-lc</td>
+                    </tr>
+                    
+                    <tr>
+                        <td><strong>ECDH</strong></td>
+                        <td><strong style="color: var(--primary);">ML-KEM-768 (NIST FIPS 203) / Hybrid X25519MLKEM768</strong></td>
+                        <td><span class="badge badge-warning">HYBRID</span></td>
+                        <td>MEDIUM</td>
+                        <td>ML-KEM-768 public key is 1,184 bytes & ciphertext is 1,088 bytes (vs X25519 32 bytes). Handshake size increases by ~2.2 KB.</td>
+                        <td>liboqs, OpenSSL 3.5+, BoringSSL, aws-lc, Bouncy Castle 1.78+, python-oqs</td>
+                    </tr>
+                    
+                    <tr>
+                        <td><strong>RSA</strong></td>
+                        <td><strong style="color: var(--primary);">ML-KEM-768 (NIST FIPS 203) / Hybrid X25519MLKEM768</strong></td>
+                        <td><span class="badge badge-warning">HYBRID</span></td>
+                        <td>MEDIUM</td>
+                        <td>ML-KEM-768 public key is 1,184 bytes & ciphertext is 1,088 bytes (vs X25519 32 bytes). Handshake size increases by ~2.2 KB.</td>
+                        <td>liboqs, OpenSSL 3.5+, BoringSSL, aws-lc, Bouncy Castle 1.78+, python-oqs</td>
+                    </tr>
+                    
+                    <tr>
+                        <td><strong>DSA-1024</strong></td>
+                        <td><strong style="color: var(--primary);">ML-DSA-65 (NIST FIPS 204 / Dilithium)</strong></td>
+                        <td><span class="badge badge-warning">HYBRID</span></td>
+                        <td>MEDIUM</td>
+                        <td>ML-DSA-65 public key is 1,952 bytes; signature is 3,309 bytes (vs ECDSA P-256 64 bytes; ~50x larger).</td>
+                        <td>liboqs, OpenSSL 3.5+, Bouncy Castle 1.78+, aws-lc</td>
+                    </tr>
+                    
+                    <tr>
+                        <td><strong>RSA-2048</strong></td>
+                        <td><strong style="color: var(--primary);">ML-KEM-768 (NIST FIPS 203) / Hybrid X25519MLKEM768</strong></td>
+                        <td><span class="badge badge-warning">HYBRID</span></td>
+                        <td>MEDIUM</td>
+                        <td>ML-KEM-768 public key is 1,184 bytes & ciphertext is 1,088 bytes (vs X25519 32 bytes). Handshake size increases by ~2.2 KB.</td>
+                        <td>liboqs, OpenSSL 3.5+, BoringSSL, aws-lc, Bouncy Castle 1.78+, python-oqs</td>
+                    </tr>
+                    
+                    <tr>
+                        <td><strong>AES-128-128</strong></td>
+                        <td><strong style="color: var(--primary);">AES-256 (NIST PQC Security Category 5)</strong></td>
+                        <td><span class="badge badge-warning">CLASSICAL_UPGRADE</span></td>
+                        <td>LOW</td>
+                        <td>Key length increases from 16 bytes to 32 bytes; ciphertext length is unchanged.</td>
+                        <td>Standard library, cryptography, OpenSSL, Web Crypto API</td>
+                    </tr>
+                    
+                    <tr>
+                        <td><strong>HS256</strong></td>
+                        <td><strong style="color: var(--primary);">Upgrade to NIST standardized quantum-safe primitive</strong></td>
+                        <td><span class="badge badge-warning">HYBRID</span></td>
+                        <td>MEDIUM</td>
+                        <td>Moderate change in public key or ciphertext dimensions.</td>
+                        <td>liboqs, OpenSSL 3.5+, Bouncy Castle 1.78+</td>
+                    </tr>
+                    
+                    <tr>
+                        <td><strong>NULL</strong></td>
+                        <td><strong style="color: var(--primary);">Upgrade to NIST standardized quantum-safe primitive</strong></td>
+                        <td><span class="badge badge-warning">HYBRID</span></td>
+                        <td>MEDIUM</td>
+                        <td>Moderate change in public key or ciphertext dimensions.</td>
+                        <td>liboqs, OpenSSL 3.5+, Bouncy Castle 1.78+</td>
+                    </tr>
+                    
+                    <tr>
+                        <td><strong>Hardcoded Secret Key</strong></td>
+                        <td><strong style="color: var(--primary);">Upgrade to NIST standardized quantum-safe primitive</strong></td>
+                        <td><span class="badge badge-warning">HYBRID</span></td>
+                        <td>MEDIUM</td>
+                        <td>Moderate change in public key or ciphertext dimensions.</td>
+                        <td>liboqs, OpenSSL 3.5+, Bouncy Castle 1.78+</td>
+                    </tr>
+                    
+                    <tr>
+                        <td><strong>Hardcoded Secret Key</strong></td>
+                        <td><strong style="color: var(--primary);">Upgrade to NIST standardized quantum-safe primitive</strong></td>
+                        <td><span class="badge badge-warning">HYBRID</span></td>
+                        <td>MEDIUM</td>
+                        <td>Moderate change in public key or ciphertext dimensions.</td>
+                        <td>liboqs, OpenSSL 3.5+, Bouncy Castle 1.78+</td>
+                    </tr>
+                    
+                    <tr>
+                        <td><strong>AES-256</strong></td>
+                        <td><strong style="color: var(--primary);">None needed (Already NIST Quantum-Resistant)</strong></td>
+                        <td><span class="badge badge-warning">NOT_NEEDED</span></td>
+                        <td>LOW</td>
+                        <td>No change needed.</td>
+                        <td>Current implementation</td>
+                    </tr>
+                    
+                    <tr>
+                        <td><strong>AES-256</strong></td>
+                        <td><strong style="color: var(--primary);">None needed (Already NIST Quantum-Resistant)</strong></td>
+                        <td><span class="badge badge-warning">NOT_NEEDED</span></td>
+                        <td>LOW</td>
+                        <td>No change needed.</td>
+                        <td>Current implementation</td>
+                    </tr>
+                    
+                    <tr>
+                        <td><strong>AES-256-1024</strong></td>
+                        <td><strong style="color: var(--primary);">None needed (Already NIST Quantum-Resistant)</strong></td>
+                        <td><span class="badge badge-warning">NOT_NEEDED</span></td>
+                        <td>LOW</td>
+                        <td>No change needed.</td>
+                        <td>Current implementation</td>
+                    </tr>
+                    
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Full Inventory -->
+        <div class="section">
+            <h2 class="section-title">Complete Cryptographic Inventory (CBOM Components)</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Type</th>
+                        <th>Name</th>
+                        <th>Key / Param</th>
+                        <th>Mode</th>
+                        <th>Status</th>
+                        <th>Location</th>
+                        <th>Detection Method</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                    <tr>
+                        <td><span class="badge badge-info">CERTIFICATE</span></td>
+                        <td><strong>RSA</strong></td>
+                        <td>2048</td>
+                        <td>-</td>
+                        <td>
+                            
+                                <span class="badge badge-danger">Shor Vulnerable</span>
+                            
+                        </td>
+                        <td><code>sample_targets\vulnerable_app\server.crt:1</code></td>
+                        <td>x509_parser</td>
+                    </tr>
+                    
+                    <tr>
+                        <td><span class="badge badge-info">PROTOCOL</span></td>
+                        <td><strong>TLS 1.0</strong></td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>
+                            
+                                <span class="badge badge-danger">Classically Broken</span>
+                            
+                        </td>
+                        <td><code>sample_targets\vulnerable_app\.env:2</code></td>
+                        <td>env_variable</td>
+                    </tr>
+                    
+                    <tr>
+                        <td><span class="badge badge-info">ALGORITHM</span></td>
+                        <td><strong>RC4</strong></td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>
+                            
+                                <span class="badge badge-danger">Classically Broken</span>
+                            
+                        </td>
+                        <td><code>sample_targets\vulnerable_app\.env:3</code></td>
+                        <td>env_variable</td>
+                    </tr>
+                    
+                    <tr>
+                        <td><span class="badge badge-info">ALGORITHM</span></td>
+                        <td><strong>HS256</strong></td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>
+                            
+                                <span class="badge badge-info">Unclassified</span>
+                            
+                        </td>
+                        <td><code>sample_targets\vulnerable_app\.env:4</code></td>
+                        <td>env_variable</td>
+                    </tr>
+                    
+                    <tr>
+                        <td><span class="badge badge-info">PROTOCOL</span></td>
+                        <td><strong>TLS 1.0</strong></td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>
+                            
+                                <span class="badge badge-danger">Classically Broken</span>
+                            
+                        </td>
+                        <td><code>sample_targets\vulnerable_app\nginx.conf:9</code></td>
+                        <td>config_directive</td>
+                    </tr>
+                    
+                    <tr>
+                        <td><span class="badge badge-info">PROTOCOL</span></td>
+                        <td><strong>TLS 1.1</strong></td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>
+                            
+                                <span class="badge badge-danger">Classically Broken</span>
+                            
+                        </td>
+                        <td><code>sample_targets\vulnerable_app\nginx.conf:9</code></td>
+                        <td>config_directive</td>
+                    </tr>
+                    
+                    <tr>
+                        <td><span class="badge badge-info">PROTOCOL</span></td>
+                        <td><strong>TLS 1.0</strong></td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>
+                            
+                                <span class="badge badge-danger">Classically Broken</span>
+                            
+                        </td>
+                        <td><code>sample_targets\vulnerable_app\nginx.conf:9</code></td>
+                        <td>config_directive</td>
+                    </tr>
+                    
+                    <tr>
+                        <td><span class="badge badge-info">ALGORITHM</span></td>
+                        <td><strong>NULL</strong></td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>
+                            
+                                <span class="badge badge-info">Unclassified</span>
+                            
+                        </td>
+                        <td><code>sample_targets\vulnerable_app\nginx.conf:12</code></td>
+                        <td>config_directive</td>
+                    </tr>
+                    
+                    <tr>
+                        <td><span class="badge badge-info">ALGORITHM</span></td>
+                        <td><strong>RC4</strong></td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>
+                            
+                                <span class="badge badge-danger">Classically Broken</span>
+                            
+                        </td>
+                        <td><code>sample_targets\vulnerable_app\nginx.conf:12</code></td>
+                        <td>config_directive</td>
+                    </tr>
+                    
+                    <tr>
+                        <td><span class="badge badge-info">ALGORITHM</span></td>
+                        <td><strong>3DES</strong></td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>
+                            
+                                <span class="badge badge-danger">Classically Broken</span>
+                            
+                        </td>
+                        <td><code>sample_targets\vulnerable_app\nginx.conf:12</code></td>
+                        <td>config_directive</td>
+                    </tr>
+                    
+                    <tr>
+                        <td><span class="badge badge-info">ALGORITHM</span></td>
+                        <td><strong>MD5</strong></td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>
+                            
+                                <span class="badge badge-danger">Classically Broken</span>
+                            
+                        </td>
+                        <td><code>sample_targets\vulnerable_app\nginx.conf:12</code></td>
+                        <td>config_directive</td>
+                    </tr>
+                    
+                    <tr>
+                        <td><span class="badge badge-info">PROTOCOL</span></td>
+                        <td><strong>DH</strong></td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>
+                            
+                                <span class="badge badge-danger">Shor Vulnerable</span>
+                            
+                        </td>
+                        <td><code>sample_targets\vulnerable_app\sshd_config:5</code></td>
+                        <td>sshd_config</td>
+                    </tr>
+                    
+                    <tr>
+                        <td><span class="badge badge-info">PROTOCOL</span></td>
+                        <td><strong>DH</strong></td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>
+                            
+                                <span class="badge badge-danger">Shor Vulnerable</span>
+                            
+                        </td>
+                        <td><code>sample_targets\vulnerable_app\sshd_config:5</code></td>
+                        <td>sshd_config</td>
+                    </tr>
+                    
+                    <tr>
+                        <td><span class="badge badge-info">ALGORITHM</span></td>
+                        <td><strong>RSA</strong></td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>
+                            
+                                <span class="badge badge-danger">Shor Vulnerable</span>
+                            
+                        </td>
+                        <td><code>sample_targets\vulnerable_app\sshd_config:6</code></td>
+                        <td>sshd_config</td>
+                    </tr>
+                    
+                    <tr>
+                        <td><span class="badge badge-info">ALGORITHM</span></td>
+                        <td><strong>3DES</strong></td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>
+                            
+                                <span class="badge badge-danger">Classically Broken</span>
+                            
+                        </td>
+                        <td><code>sample_targets\vulnerable_app\sshd_config:7</code></td>
+                        <td>sshd_config</td>
+                    </tr>
+                    
+                    <tr>
+                        <td><span class="badge badge-info">ALGORITHM</span></td>
+                        <td><strong>AES-256</strong></td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>
+                            
+                                <span class="badge badge-success">Quantum Safe</span>
+                            
+                        </td>
+                        <td><code>sample_targets\vulnerable_app\sshd_config:7</code></td>
+                        <td>sshd_config</td>
+                    </tr>
+                    
+                    <tr>
+                        <td><span class="badge badge-info">LIBRARY</span></td>
+                        <td><strong>golang.org/x/crypto</strong></td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>
+                            
+                                <span class="badge badge-danger">Shor Vulnerable</span>
+                            
+                        </td>
+                        <td><code>sample_targets\vulnerable_app\go.mod:6</code></td>
+                        <td>dependency_manifest</td>
+                    </tr>
+                    
+                    <tr>
+                        <td><span class="badge badge-info">LIBRARY</span></td>
+                        <td><strong>crypto-js</strong></td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>
+                            
+                                <span class="badge badge-danger">Classically Broken</span>
+                            
+                        </td>
+                        <td><code>sample_targets\vulnerable_app\package.json:7</code></td>
+                        <td>dependency_manifest</td>
+                    </tr>
+                    
+                    <tr>
+                        <td><span class="badge badge-info">LIBRARY</span></td>
+                        <td><strong>node-forge</strong></td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>
+                            
+                                <span class="badge badge-danger">Shor Vulnerable</span>
+                            
+                        </td>
+                        <td><code>sample_targets\vulnerable_app\package.json:8</code></td>
+                        <td>dependency_manifest</td>
+                    </tr>
+                    
+                    <tr>
+                        <td><span class="badge badge-info">LIBRARY</span></td>
+                        <td><strong>bouncycastle</strong></td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>
+                            
+                                <span class="badge badge-danger">Shor Vulnerable</span>
+                            
+                        </td>
+                        <td><code>sample_targets\vulnerable_app\pom.xml:9</code></td>
+                        <td>dependency_manifest</td>
+                    </tr>
+                    
+                    <tr>
+                        <td><span class="badge badge-info">LIBRARY</span></td>
+                        <td><strong>pycrypto</strong></td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>
+                            
+                                <span class="badge badge-danger">Classically Broken</span>
+                            
+                        </td>
+                        <td><code>sample_targets\vulnerable_app\requirements.txt:2</code></td>
+                        <td>dependency_manifest</td>
+                    </tr>
+                    
+                    <tr>
+                        <td><span class="badge badge-info">LIBRARY</span></td>
+                        <td><strong>cryptography</strong></td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>
+                            
+                                <span class="badge badge-danger">Shor Vulnerable</span>
+                            
+                        </td>
+                        <td><code>sample_targets\vulnerable_app\requirements.txt:3</code></td>
+                        <td>dependency_manifest</td>
+                    </tr>
+                    
+                    <tr>
+                        <td><span class="badge badge-info">LIBRARY</span></td>
+                        <td><strong>pyOpenSSL</strong></td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>
+                            
+                                <span class="badge badge-danger">Shor Vulnerable</span>
+                            
+                        </td>
+                        <td><code>sample_targets\vulnerable_app\requirements.txt:4</code></td>
+                        <td>dependency_manifest</td>
+                    </tr>
+                    
+                    <tr>
+                        <td><span class="badge badge-info">ALGORITHM</span></td>
+                        <td><strong>MD5</strong></td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>
+                            
+                                <span class="badge badge-danger">Classically Broken</span>
+                            
+                        </td>
+                        <td><code>sample_targets\vulnerable_app\app.py:22</code></td>
+                        <td>ast_parser</td>
+                    </tr>
+                    
+                    <tr>
+                        <td><span class="badge badge-info">ALGORITHM</span></td>
+                        <td><strong>SHA-1</strong></td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>
+                            
+                                <span class="badge badge-danger">Classically Broken</span>
+                            
+                        </td>
+                        <td><code>sample_targets\vulnerable_app\app.py:27</code></td>
+                        <td>ast_parser</td>
+                    </tr>
+                    
+                    <tr>
+                        <td><span class="badge badge-info">ALGORITHM</span></td>
+                        <td><strong>AES-256</strong></td>
+                        <td>-</td>
+                        <td>ECB</td>
+                        <td>
+                            
+                                <span class="badge badge-success">Quantum Safe</span>
+                            
+                        </td>
+                        <td><code>sample_targets\vulnerable_app\app.py:32</code></td>
+                        <td>ast_parser</td>
+                    </tr>
+                    
+                    <tr>
+                        <td><span class="badge badge-info">ALGORITHM</span></td>
+                        <td><strong>RSA</strong></td>
+                        <td>1024</td>
+                        <td>-</td>
+                        <td>
+                            
+                                <span class="badge badge-danger">Shor Vulnerable</span>
+                            
+                        </td>
+                        <td><code>sample_targets\vulnerable_app\app.py:38</code></td>
+                        <td>ast_parser</td>
+                    </tr>
+                    
+                    <tr>
+                        <td><span class="badge badge-info">ALGORITHM</span></td>
+                        <td><strong>ECDSA</strong></td>
+                        <td>256</td>
+                        <td>-</td>
+                        <td>
+                            
+                                <span class="badge badge-danger">Shor Vulnerable</span>
+                            
+                        </td>
+                        <td><code>sample_targets\vulnerable_app\app.py:43</code></td>
+                        <td>ast_parser</td>
+                    </tr>
+                    
+                    <tr>
+                        <td><span class="badge badge-info">PROTOCOL</span></td>
+                        <td><strong>TLS 1.0</strong></td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>
+                            
+                                <span class="badge badge-danger">Classically Broken</span>
+                            
+                        </td>
+                        <td><code>sample_targets\vulnerable_app\app.py:48</code></td>
+                        <td>ast_parser</td>
+                    </tr>
+                    
+                    <tr>
+                        <td><span class="badge badge-info">KEY</span></td>
+                        <td><strong>RSA</strong></td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>
+                            
+                                <span class="badge badge-danger">Shor Vulnerable</span>
+                            
+                        </td>
+                        <td><code>sample_targets\vulnerable_app\app.py:12</code></td>
+                        <td>regex_rule</td>
+                    </tr>
+                    
+                    <tr>
+                        <td><span class="badge badge-info">KEY</span></td>
+                        <td><strong>Hardcoded Secret Key</strong></td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>
+                            
+                                <span class="badge badge-info">Unclassified</span>
+                            
+                        </td>
+                        <td><code>sample_targets\vulnerable_app\app.py:17</code></td>
+                        <td>regex_rule</td>
+                    </tr>
+                    
+                    <tr>
+                        <td><span class="badge badge-info">ALGORITHM</span></td>
+                        <td><strong>SHA-1</strong></td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>
+                            
+                                <span class="badge badge-danger">Classically Broken</span>
+                            
+                        </td>
+                        <td><code>sample_targets\vulnerable_app\app.py:27</code></td>
+                        <td>regex_rule</td>
+                    </tr>
+                    
+                    <tr>
+                        <td><span class="badge badge-info">ALGORITHM</span></td>
+                        <td><strong>AES-256</strong></td>
+                        <td>1024</td>
+                        <td>-</td>
+                        <td>
+                            
+                                <span class="badge badge-success">Quantum Safe</span>
+                            
+                        </td>
+                        <td><code>sample_targets\vulnerable_app\app.py:32</code></td>
+                        <td>regex_rule</td>
+                    </tr>
+                    
+                    <tr>
+                        <td><span class="badge badge-info">ALGORITHM</span></td>
+                        <td><strong>ECDH</strong></td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>
+                            
+                                <span class="badge badge-danger">Shor Vulnerable</span>
+                            
+                        </td>
+                        <td><code>sample_targets\vulnerable_app\app.py:43</code></td>
+                        <td>regex_rule</td>
+                    </tr>
+                    
+                    <tr>
+                        <td><span class="badge badge-info">PROTOCOL</span></td>
+                        <td><strong>TLS 1.0</strong></td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>
+                            
+                                <span class="badge badge-danger">Classically Broken</span>
+                            
+                        </td>
+                        <td><code>sample_targets\vulnerable_app\app.py:48</code></td>
+                        <td>regex_rule</td>
+                    </tr>
+                    
+                    <tr>
+                        <td><span class="badge badge-info">ALGORITHM</span></td>
+                        <td><strong>RSA</strong></td>
+                        <td>-</td>
+                        <td>ECB</td>
+                        <td>
+                            
+                                <span class="badge badge-danger">Shor Vulnerable</span>
+                            
+                        </td>
+                        <td><code>sample_targets\vulnerable_app\CryptoService.java:17</code></td>
+                        <td>regex_rule</td>
+                    </tr>
+                    
+                    <tr>
+                        <td><span class="badge badge-info">ALGORITHM</span></td>
+                        <td><strong>DSA</strong></td>
+                        <td>1024</td>
+                        <td>-</td>
+                        <td>
+                            
+                                <span class="badge badge-danger">Shor Vulnerable</span>
+                            
+                        </td>
+                        <td><code>sample_targets\vulnerable_app\CryptoService.java:23</code></td>
+                        <td>regex_rule</td>
+                    </tr>
+                    
+                    <tr>
+                        <td><span class="badge badge-info">ALGORITHM</span></td>
+                        <td><strong>SHA-1</strong></td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>
+                            
+                                <span class="badge badge-danger">Classically Broken</span>
+                            
+                        </td>
+                        <td><code>sample_targets\vulnerable_app\CryptoService.java:30</code></td>
+                        <td>regex_rule</td>
+                    </tr>
+                    
+                    <tr>
+                        <td><span class="badge badge-info">ALGORITHM</span></td>
+                        <td><strong>DES</strong></td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>
+                            
+                                <span class="badge badge-danger">Classically Broken</span>
+                            
+                        </td>
+                        <td><code>sample_targets\vulnerable_app\CryptoService.java:36</code></td>
+                        <td>regex_rule</td>
+                    </tr>
+                    
+                    <tr>
+                        <td><span class="badge badge-info">ALGORITHM</span></td>
+                        <td><strong>DES</strong></td>
+                        <td>-</td>
+                        <td>CBC</td>
+                        <td>
+                            
+                                <span class="badge badge-danger">Classically Broken</span>
+                            
+                        </td>
+                        <td><code>sample_targets\vulnerable_app\CryptoService.java:37</code></td>
+                        <td>regex_rule</td>
+                    </tr>
+                    
+                    <tr>
+                        <td><span class="badge badge-info">KEY</span></td>
+                        <td><strong>Hardcoded Secret Key</strong></td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>
+                            
+                                <span class="badge badge-info">Unclassified</span>
+                            
+                        </td>
+                        <td><code>sample_targets\vulnerable_app\index.js:8</code></td>
+                        <td>regex_rule</td>
+                    </tr>
+                    
+                    <tr>
+                        <td><span class="badge badge-info">ALGORITHM</span></td>
+                        <td><strong>MD5</strong></td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>
+                            
+                                <span class="badge badge-danger">Classically Broken</span>
+                            
+                        </td>
+                        <td><code>sample_targets\vulnerable_app\index.js:12</code></td>
+                        <td>regex_rule</td>
+                    </tr>
+                    
+                    <tr>
+                        <td><span class="badge badge-info">ALGORITHM</span></td>
+                        <td><strong>AES-128</strong></td>
+                        <td>128</td>
+                        <td>CBC</td>
+                        <td>
+                            
+                                <span class="badge badge-warning">Grover Weakened</span>
+                            
+                        </td>
+                        <td><code>sample_targets\vulnerable_app\index.js:17</code></td>
+                        <td>regex_rule</td>
+                    </tr>
+                    
+                    <tr>
+                        <td><span class="badge badge-info">ALGORITHM</span></td>
+                        <td><strong>RSA</strong></td>
+                        <td>2048</td>
+                        <td>-</td>
+                        <td>
+                            
+                                <span class="badge badge-danger">Shor Vulnerable</span>
+                            
+                        </td>
+                        <td><code>sample_targets\vulnerable_app\index.js:23</code></td>
+                        <td>regex_rule</td>
+                    </tr>
+                    
+                    <tr>
+                        <td><span class="badge badge-info">PROTOCOL</span></td>
+                        <td><strong>TLS 1.0</strong></td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>
+                            
+                                <span class="badge badge-danger">Classically Broken</span>
+                            
+                        </td>
+                        <td><code>sample_targets\vulnerable_app\nginx.conf:9</code></td>
+                        <td>regex_rule</td>
+                    </tr>
+                    
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
