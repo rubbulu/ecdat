@@ -157,28 +157,28 @@ ecdat/
 - [x] NIST PQC advisory engine (ML-KEM, ML-DSA, SLH-DSA, hybrid schemes, urgency ranking)
 - [x] Multi-format export engine (CycloneDX 1.6 CBOM, printable HTML/PDF reports, audit CSV)
 - [x] FastAPI REST API with background scanning, zip-slip protection, overrides, and test suite
-- [ ] Frontend React + Vite dashboard, interactive CBOM viewer, and Mosca simulator
-- [ ] End-to-end integration and automated validation
+- [x] Frontend React + Vite dashboard, interactive CBOM viewer, and Mosca simulator
+- [x] End-to-end integration and automated validation
 
 ---
 
-## ⚡ Running the Backend
+## ⚡ Running ECDAT
 
-### Prerequisites
-- Python 3.11+
-- Virtual environment (recommended)
-
-### 1. Install Dependencies
-```bash
-pip install -r backend/requirements.txt
+### 1. Start the FastAPI Backend
+```powershell
+.\start_backend.ps1
+# Or manually:
+# python -m uvicorn backend.main:app --reload --port 8000
 ```
+Interactive Swagger API docs available at: **http://localhost:8000/docs**
 
-### 2. Start the FastAPI Server
-```bash
-uvicorn backend.main:app --reload --host 0.0.0.0 --port 8000
+### 2. Start the React Frontend
+```powershell
+.\start_frontend.ps1
+# Or manually:
+# cd frontend && npm run dev
 ```
-Interactive Swagger API documentation will be available at:
-`http://localhost:8000/docs`
+Interactive Analyst GUI available at: **http://localhost:5173**
 
 ---
 
