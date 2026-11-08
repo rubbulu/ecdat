@@ -56,7 +56,10 @@ dist-ssr/
 *.sqlite
 *.sqlite3
 *.db
+*.db-shm
+*.db-wal
 ecdat.db
+backend/ecdat.db*
 
 # OS & Editor
 .DS_Store
