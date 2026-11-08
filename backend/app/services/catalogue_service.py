@@ -75,10 +75,12 @@ class CryptoCatalogueService:
     def enrich_artefact(self, artefact: Artefact) -> Artefact:
         """
         Enrich an Artefact with quantum status, NIST PQC replacement, and notes from catalogue.
+        Also normalizes the artefact name to the canonical catalogue name.
         """
         lookup = self.get_algorithm(artefact.name)
         if lookup:
             canonical_name, entry = lookup
+            artefact.name = canonical_name
             artefact.quantum_status = entry.quantum_status
             artefact.nist_replacement = entry.nist_replacement
             artefact.notes = entry.notes

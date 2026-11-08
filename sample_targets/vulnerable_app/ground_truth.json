@@ -1,0 +1,142 @@
+{
+  "description": "ECDAT Benchmark Ground Truth for sample_targets/vulnerable_app",
+  "total_planted_artefacts": 16,
+  "artefacts": [
+    {
+      "id": "GT-PY-01",
+      "file": "app.py",
+      "name": "RSA",
+      "type": "key",
+      "quantum_status": "vulnerable_shor",
+      "notes": "Hardcoded PEM private key"
+    },
+    {
+      "id": "GT-PY-02",
+      "file": "app.py",
+      "name": "Hardcoded Secret Key",
+      "type": "key",
+      "quantum_status": null,
+      "notes": "Hardcoded secret variable jwt_secret"
+    },
+    {
+      "id": "GT-PY-03",
+      "file": "app.py",
+      "name": "MD5",
+      "type": "algorithm",
+      "quantum_status": "classically_broken",
+      "notes": "hashlib.md5 call"
+    },
+    {
+      "id": "GT-PY-04",
+      "file": "app.py",
+      "name": "SHA-1",
+      "type": "algorithm",
+      "quantum_status": "classically_broken",
+      "notes": "hashlib.sha1 call"
+    },
+    {
+      "id": "GT-PY-05",
+      "file": "app.py",
+      "name": "AES",
+      "mode": "ECB",
+      "type": "algorithm",
+      "quantum_status": "quantum_safe",
+      "notes": "Crypto.Cipher.AES.new with ECB mode"
+    },
+    {
+      "id": "GT-PY-06",
+      "file": "app.py",
+      "name": "RSA",
+      "key_size": 1024,
+      "type": "algorithm",
+      "quantum_status": "vulnerable_shor",
+      "notes": "rsa.generate_private_key with 1024-bit key"
+    },
+    {
+      "id": "GT-PY-07",
+      "file": "app.py",
+      "name": "ECDSA",
+      "key_size": 256,
+      "type": "algorithm",
+      "quantum_status": "vulnerable_shor",
+      "notes": "ec.generate_private_key with SECP256R1"
+    },
+    {
+      "id": "GT-PY-08",
+      "file": "app.py",
+      "name": "TLS 1.0",
+      "type": "protocol",
+      "quantum_status": "classically_broken",
+      "notes": "ssl.PROTOCOL_TLSv1"
+    },
+    {
+      "id": "GT-JS-01",
+      "file": "index.js",
+      "name": "Hardcoded Secret Key",
+      "type": "key",
+      "quantum_status": null,
+      "notes": "Hardcoded secret variable api_secret"
+    },
+    {
+      "id": "GT-JS-02",
+      "file": "index.js",
+      "name": "MD5",
+      "type": "algorithm",
+      "quantum_status": "classically_broken",
+      "notes": "crypto.createHash('md5')"
+    },
+    {
+      "id": "GT-JS-03",
+      "file": "index.js",
+      "name": "AES-128",
+      "mode": "CBC",
+      "key_size": 128,
+      "type": "algorithm",
+      "quantum_status": "weakened_grover",
+      "notes": "crypto.createCipheriv('aes-128-cbc')"
+    },
+    {
+      "id": "GT-JS-04",
+      "file": "index.js",
+      "name": "RSA",
+      "key_size": 2048,
+      "type": "algorithm",
+      "quantum_status": "vulnerable_shor",
+      "notes": "crypto.generateKeyPairSync('rsa', modulusLength: 2048)"
+    },
+    {
+      "id": "GT-JAVA-01",
+      "file": "CryptoService.java",
+      "name": "RSA",
+      "mode": "ECB",
+      "type": "algorithm",
+      "quantum_status": "vulnerable_shor",
+      "notes": "Cipher.getInstance('RSA/ECB/PKCS1Padding')"
+    },
+    {
+      "id": "GT-JAVA-02",
+      "file": "CryptoService.java",
+      "name": "DSA",
+      "type": "algorithm",
+      "quantum_status": "vulnerable_shor",
+      "notes": "KeyPairGenerator.getInstance('DSA')"
+    },
+    {
+      "id": "GT-JAVA-03",
+      "file": "CryptoService.java",
+      "name": "SHA-1",
+      "type": "algorithm",
+      "quantum_status": "classically_broken",
+      "notes": "MessageDigest.getInstance('SHA-1')"
+    },
+    {
+      "id": "GT-JAVA-04",
+      "file": "CryptoService.java",
+      "name": "DES",
+      "mode": "CBC",
+      "type": "algorithm",
+      "quantum_status": "classically_broken",
+      "notes": "Cipher.getInstance('DES/CBC/PKCS5Padding')"
+    }
+  ]
+}

@@ -184,7 +184,7 @@
       "quantum_status": "classically_broken",
       "nist_replacement": "TLS 1.3 with Hybrid/PQC KEM",
       "notes": "Classically obsolete (BEAST, POODLE, weak CBC padding). Formally deprecated by RFC 8996.",
-      "aliases": ["tls 1.0", "tls1.0", "tls10", "tls_1_0"]
+      "aliases": ["tls 1.0", "tls1.0", "tls10", "tls_1_0", "tlsv1", "tlsv1.0", "protocol_tlsv1", "protocol-tlsv1"]
     },
     "TLS 1.1": {
       "family": "Transport Security / Protocol",
@@ -192,7 +192,7 @@
       "quantum_status": "classically_broken",
       "nist_replacement": "TLS 1.3 with Hybrid/PQC KEM",
       "notes": "Classically obsolete. Formally deprecated by RFC 8996.",
-      "aliases": ["tls 1.1", "tls1.1", "tls11", "tls_1_1"]
+      "aliases": ["tls 1.1", "tls1.1", "tls11", "tls_1_1", "tlsv1_1", "tlsv1.1", "protocol_tlsv1_1"]
     },
     "TLS 1.2": {
       "family": "Transport Security / Protocol",
@@ -200,7 +200,7 @@
       "quantum_status": "vulnerable_shor",
       "nist_replacement": "TLS 1.3 with Hybrid/PQC Key Exchange",
       "notes": "Key exchanges rely on RSA or ECDHE which are vulnerable to Shor's algorithm. Subject to Harvest Now, Decrypt Later.",
-      "aliases": ["tls 1.2", "tls1.2", "tls12", "tls_1_2"]
+      "aliases": ["tls 1.2", "tls1.2", "tls12", "tls_1_2", "tlsv1_2", "tlsv1.2", "protocol_tlsv1_2"]
     },
     "TLS 1.3": {
       "family": "Transport Security / Protocol",
@@ -208,7 +208,7 @@
       "quantum_status": "vulnerable_shor",
       "nist_replacement": "TLS 1.3 with Hybrid ML-KEM Key Exchange (e.g. X25519MLKEM768)",
       "notes": "Classically sound and modern, but standard deployments using ECDHE key exchange are vulnerable to Shor's algorithm. Must be upgraded with PQC/Hybrid KEM cipher groups.",
-      "aliases": ["tls 1.3", "tls1.3", "tls13", "tls_1_3"]
+      "aliases": ["tls 1.3", "tls1.3", "tls13", "tls_1_3", "tlsv1_3", "tlsv1.3", "protocol_tlsv1_3"]
     },
     "ML-KEM": {
       "family": "Post-Quantum Cryptography / KEM",

@@ -1,0 +1,255 @@
+version: "1.0.0"
+description: "ECDAT Cryptographic Discovery and Static Analysis Rules"
+
+rules:
+  # =========================================================================
+  # Python Rules
+  # =========================================================================
+  - id: py_hashlib_call
+    description: "Python hashlib hash algorithm invocation"
+    languages: ["python"]
+    extensions: [".py"]
+    type: "algorithm"
+    pattern: 'hashlib\.(md5|sha1|sha224|sha256|sha384|sha512|sha3_256|sha3_512|shake_128|shake_256)\b'
+    algorithm_group: 1
+    confidence: 0.95
+
+  - id: py_hashlib_new
+    description: "Python hashlib.new dynamic hash instantiation"
+    languages: ["python"]
+    extensions: [".py"]
+    type: "algorithm"
+    pattern: 'hashlib\.new\s*\(\s*["'']([a-zA-Z0-9_\-]+)["'']'
+    algorithm_group: 1
+    confidence: 0.90
+
+  - id: py_cryptodome_cipher
+    description: "PyCryptodome / PyCrypto cipher invocation"
+    languages: ["python"]
+    extensions: [".py"]
+    type: "algorithm"
+    pattern: '(?:Crypto\.Cipher\.)?(AES|DES|DES3|ARC4|Blowfish|PKCS1_OAEP|PKCS1_v1_5)\.new\s*\('
+    algorithm_group: 1
+    confidence: 0.95
+
+  - id: py_cryptography_rsa_gen
+    description: "cryptography.hazmat RSA key generation"
+    languages: ["python"]
+    extensions: [".py"]
+    type: "algorithm"
+    name: "RSA"
+    pattern: 'rsa\.generate_private_key\s*\([^)]*key_size\s*=\s*([0-9]{3,5})'
+    key_size_group: 1
+    confidence: 0.98
+
+  - id: py_cryptography_ec_gen
+    description: "cryptography.hazmat EC key generation"
+    languages: ["python"]
+    extensions: [".py"]
+    type: "algorithm"
+    name: "ECDSA"
+    pattern: 'ec\.generate_private_key\s*\(\s*ec\.([a-zA-Z0-9_]+)\s*\(\s*\)'
+    algorithm_group: 1
+    confidence: 0.98
+
+  - id: py_ssl_protocol
+    description: "Python ssl module legacy protocol constant"
+    languages: ["python"]
+    extensions: [".py"]
+    type: "protocol"
+    pattern: 'ssl\.(PROTOCOL_SSLv23|PROTOCOL_SSLv2|PROTOCOL_SSLv3|PROTOCOL_TLSv1|PROTOCOL_TLSv1_1|PROTOCOL_TLSv1_2|PROTOCOL_TLS_CLIENT|PROTOCOL_TLS_SERVER)\b'
+    algorithm_group: 1
+    confidence: 0.95
+
+  - id: py_jwt_algorithm
+    description: "PyJWT algorithm specification"
+    languages: ["python"]
+    extensions: [".py"]
+    type: "algorithm"
+    pattern: 'jwt\.(?:encode|decode)\s*\([^)]*algorithm\s*=\s*["'']([a-zA-Z0-9\-]+)["'']'
+    algorithm_group: 1
+    confidence: 0.92
+
+  # =========================================================================
+  # JavaScript / TypeScript Rules
+  # =========================================================================
+  - id: js_crypto_create_hash
+    description: "Node.js crypto.createHash invocation"
+    languages: ["javascript", "typescript"]
+    extensions: [".js", ".jsx", ".ts", ".tsx", ".mjs", ".cjs"]
+    type: "algorithm"
+    pattern: 'crypto\.createHash\s*\(\s*["'']([a-zA-Z0-9_\-]+)["'']'
+    algorithm_group: 1
+    confidence: 0.95
+
+  - id: js_crypto_create_cipher
+    description: "Node.js crypto.createCipher / createCipheriv"
+    languages: ["javascript", "typescript"]
+    extensions: [".js", ".jsx", ".ts", ".tsx", ".mjs", ".cjs"]
+    type: "algorithm"
+    pattern: 'crypto\.(?:createCipher|createCipheriv)\s*\(\s*["'']([a-zA-Z0-9_\-]+)["'']'
+    algorithm_group: 1
+    confidence: 0.95
+
+  - id: js_crypto_keypair_sync
+    description: "Node.js generateKeyPairSync algorithm"
+    languages: ["javascript", "typescript"]
+    extensions: [".js", ".jsx", ".ts", ".tsx", ".mjs", ".cjs"]
+    type: "algorithm"
+    pattern: 'generateKeyPairSync\s*\(\s*["'']([a-zA-Z0-9_\-]+)["''](?:\s*,\s*\{[^}]*modulusLength\s*:\s*([0-9]{3,5}))?'
+    algorithm_group: 1
+    key_size_group: 2
+    confidence: 0.95
+
+  - id: js_jwt_algorithm
+    description: "Node.js jsonwebtoken algorithm"
+    languages: ["javascript", "typescript"]
+    extensions: [".js", ".jsx", ".ts", ".tsx", ".mjs", ".cjs"]
+    type: "algorithm"
+    pattern: 'jwt\.(?:sign|verify)\s*\([^)]*algorithm\s*:\s*["'']([a-zA-Z0-9_\-]+)["'']'
+    algorithm_group: 1
+    confidence: 0.92
+
+  # =========================================================================
+  # Java Rules
+  # =========================================================================
+  - id: java_cipher_get_instance
+    description: "Java javax.crypto.Cipher.getInstance transformation"
+    languages: ["java"]
+    extensions: [".java", ".kt"]
+    type: "algorithm"
+    pattern: 'Cipher\.getInstance\s*\(\s*["'']([a-zA-Z0-9_\-]+)(?:/([a-zA-Z0-9_\-]+)(?:/[a-zA-Z0-9_\-]+)?)?["'']'
+    algorithm_group: 1
+    mode_group: 2
+    confidence: 0.95
+
+  - id: java_keypair_generator
+    description: "Java KeyPairGenerator.getInstance"
+    languages: ["java"]
+    extensions: [".java", ".kt"]
+    type: "algorithm"
+    pattern: 'KeyPairGenerator\.getInstance\s*\(\s*["'']([a-zA-Z0-9_\-]+)["'']'
+    algorithm_group: 1
+    confidence: 0.95
+
+  - id: java_message_digest
+    description: "Java MessageDigest.getInstance"
+    languages: ["java"]
+    extensions: [".java", ".kt"]
+    type: "algorithm"
+    pattern: 'MessageDigest\.getInstance\s*\(\s*["'']([a-zA-Z0-9_\-]+)["'']'
+    algorithm_group: 1
+    confidence: 0.95
+
+  - id: java_secret_key_spec
+    description: "Java SecretKeySpec primitive initialization"
+    languages: ["java"]
+    extensions: [".java", ".kt"]
+    type: "algorithm"
+    pattern: 'new\s+SecretKeySpec\s*\([^,]+,\s*["'']([a-zA-Z0-9_\-]+)["'']\)'
+    algorithm_group: 1
+    confidence: 0.90
+
+  # =========================================================================
+  # Go Rules
+  # =========================================================================
+  - id: go_crypto_import
+    description: "Go standard crypto package import"
+    languages: ["go"]
+    extensions: [".go"]
+    type: "library"
+    pattern: '"crypto/(rsa|dsa|ecdsa|elliptic|md5|sha1|sha256|sha512|des|rc4|aes|tls)"'
+    algorithm_group: 1
+    confidence: 0.90
+
+  - id: go_rsa_generate_key
+    description: "Go rsa.GenerateKey with bit size"
+    languages: ["go"]
+    extensions: [".go"]
+    type: "algorithm"
+    name: "RSA"
+    pattern: 'rsa\.GenerateKey\s*\([^,]+,\s*([0-9]{3,5})\)'
+    key_size_group: 1
+    confidence: 0.98
+
+  - id: go_tls_version
+    description: "Go tls.Config MinVersion / MaxVersion"
+    languages: ["go"]
+    extensions: [".go"]
+    type: "protocol"
+    pattern: 'tls\.(VersionSSL30|VersionTLS10|VersionTLS11|VersionTLS12|VersionTLS13)\b'
+    algorithm_group: 1
+    confidence: 0.95
+
+  # =========================================================================
+  # C / C++ Rules
+  # =========================================================================
+  - id: c_openssl_evp_cipher
+    description: "OpenSSL EVP cipher function call"
+    languages: ["c", "cpp"]
+    extensions: [".c", ".cpp", ".cc", ".cxx", ".h", ".hpp"]
+    type: "algorithm"
+    pattern: '\b(EVP_aes_\d+_[a-z]+|EVP_des_ede3_[a-z]+|EVP_rc4|EVP_des_[a-z]+|EVP_chacha20)\s*\(\)'
+    algorithm_group: 1
+    confidence: 0.95
+
+  - id: c_openssl_hash
+    description: "OpenSSL digest function call"
+    languages: ["c", "cpp"]
+    extensions: [".c", ".cpp", ".cc", ".cxx", ".h", ".hpp"]
+    type: "algorithm"
+    pattern: '\b(MD5_Init|SHA1_Init|SHA256_Init|SHA384_Init|SHA512_Init|EVP_md5|EVP_sha1|EVP_sha256)\b'
+    algorithm_group: 1
+    confidence: 0.95
+
+  - id: c_openssl_rsa_gen
+    description: "OpenSSL RSA_generate_key / RSA_generate_key_ex"
+    languages: ["c", "cpp"]
+    extensions: [".c", ".cpp", ".cc", ".cxx", ".h", ".hpp"]
+    type: "algorithm"
+    name: "RSA"
+    pattern: 'RSA_generate_key(?:_ex)?\s*\([^,]+,\s*([0-9]{3,5})'
+    key_size_group: 1
+    confidence: 0.95
+
+  # =========================================================================
+  # Configuration & Web Server Rules
+  # =========================================================================
+  - id: config_nginx_ssl_protocols
+    description: "Nginx / Apache / HAProxy ssl_protocols declaration"
+    languages: ["config"]
+    extensions: [".conf", ".cnf", ".cfg", ".ini", ".yaml", ".yml", ".json"]
+    type: "protocol"
+    pattern: '(?:ssl_protocols|SSLProtocol)\s+([^;\n]+)'
+    algorithm_group: 1
+    confidence: 0.88
+
+  - id: config_tls_min_version
+    description: "TLS Minimum Version Configuration"
+    languages: ["config"]
+    extensions: [".conf", ".cnf", ".cfg", ".ini", ".yaml", ".yml", ".json"]
+    type: "protocol"
+    pattern: '["'']?(?:tls_version|min_tls_version|ssl_version)["'']?\s*[:=]\s*["'']?(TLSv?1(?:\.[0-3])?|SSLv[23])["'']?'
+    algorithm_group: 1
+    confidence: 0.90
+
+  # =========================================================================
+  # Hardcoded Secrets & Keys
+  # =========================================================================
+  - id: secret_pem_private_key
+    description: "Hardcoded PEM Private Key Block"
+    languages: ["all"]
+    extensions: []
+    type: "key"
+    pattern: '-----BEGIN\s+((?:RSA|DSA|EC|OPENSSH|PGP|ENCRYPTED)?\s*PRIVATE\s+KEY)-----'
+    algorithm_group: 1
+    confidence: 1.0
+
+  - id: secret_hardcoded_variable_key
+    description: "Hardcoded secret or cryptographic key variable assignment"
+    name: "Hardcoded Secret Key"
+    languages: ["all"]
+    extensions: []
+    type: "key"
+    pattern: '(?i)(?:private_key|secret_key|encryption_key|aes_key|jwt_secret|api_secret)\s*[:=]\s*["'']([0-9a-fA-F]{32,128}|[A-Za-z0-9+/=]{32,128})["'']'
+    confidence: 0.85
