@@ -219,11 +219,49 @@ class DatabaseManager:
             cursor = conn.execute("SELECT * FROM scans ORDER BY created_at DESC")
             return [self._row_to_scan(row) for row in cursor.fetchall()]
 
+    def get_artefact(self, artefact_id: str) -> Optional[Artefact]:
+        """Fetch a single artefact by ID."""
+        with self._get_connection() as conn:
+            cursor = conn.execute("SELECT * FROM artefacts WHERE id = ?", (artefact_id,))
+            row = cursor.fetchone()
+            if not row:
+                return None
+            return self._row_to_artefact(row)
+
+    def update_artefact_metadata(self, artefact_id: str, metadata: Dict[str, Any]) -> Optional[Artefact]:
+        """Merge/update metadata_json for a given artefact."""
+        art = self.get_artefact(artefact_id)
+        if not art:
+            return None
+        updated_metadata = {**art.metadata, **metadata}
+        with self._get_connection() as conn:
+            conn.execute(
+                "UPDATE artefacts SET metadata_json = ? WHERE id = ?",
+                (json.dumps(updated_metadata), artefact_id),
+            )
+            conn.commit()
+        return self.get_artefact(artefact_id)
+
+    def update_scan_metadata(self, scan_id: str, metadata: Dict[str, Any]) -> Optional[Scan]:
+        """Merge/update metadata_json for a given scan."""
+        scan = self.get_scan(scan_id)
+        if not scan:
+            return None
+        updated_metadata = {**scan.metadata, **metadata}
+        with self._get_connection() as conn:
+            conn.execute(
+                "UPDATE scans SET metadata_json = ? WHERE id = ?",
+                (json.dumps(updated_metadata), scan_id),
+            )
+            conn.commit()
+        return self.get_scan(scan_id)
+
     def get_artefacts(
         self,
         scan_id: str,
         type_filter: Optional[str] = None,
         quantum_filter: Optional[str] = None,
+        scanner_filter: Optional[str] = None,
     ) -> List[Artefact]:
         """Query artefacts for a scan with optional filters."""
         query = "SELECT * FROM artefacts WHERE scan_id = ?"
@@ -235,6 +273,9 @@ class DatabaseManager:
         if quantum_filter:
             query += " AND quantum_status = ?"
             params.append(quantum_filter.lower())
+        if scanner_filter:
+            query += " AND detection_method LIKE ?"
+            params.append(f"%{scanner_filter}%")
 
         query += " ORDER BY file_path, line_number"
 

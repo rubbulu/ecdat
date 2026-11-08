@@ -150,8 +150,103 @@ ecdat/
 ## 🚦 Roadmap
 
 - [x] Initial project scaffolding & Git setup
-- [ ] Backend foundation (FastAPI, SQLite, models, and CycloneDX 1.6 CBOM baseline)
-- [ ] Multi-vector cryptographic discovery engine (AST code parsing, binary & cert analyzers)
-- [ ] Mosca's inequality risk calculator & NIST PQC advisory engine
+- [x] Backend foundation (FastAPI, SQLite, Pydantic models, and central cryptographic catalogue)
+- [x] Multi-vector cryptographic discovery engine (Source AST, Binary, Container, Certificate, Config, and Dependency scanners)
+- [x] Ground-truth benchmark suite (`sample_targets/vulnerable_app` with 32 planted artefacts)
+- [x] Mosca's inequality risk calculator ($X + Y > Z$), composite 0-100 scoring, and asset classification
+- [x] NIST PQC advisory engine (ML-KEM, ML-DSA, SLH-DSA, hybrid schemes, urgency ranking)
+- [x] Multi-format export engine (CycloneDX 1.6 CBOM, printable HTML/PDF reports, audit CSV)
+- [x] FastAPI REST API with background scanning, zip-slip protection, overrides, and test suite
 - [ ] Frontend React + Vite dashboard, interactive CBOM viewer, and Mosca simulator
-- [ ] End-to-end integration with sample target repos and automated validation
+- [ ] End-to-end integration and automated validation
+
+---
+
+## ⚡ Running the Backend
+
+### Prerequisites
+- Python 3.11+
+- Virtual environment (recommended)
+
+### 1. Install Dependencies
+```bash
+pip install -r backend/requirements.txt
+```
+
+### 2. Start the FastAPI Server
+```bash
+uvicorn backend.main:app --reload --host 0.0.0.0 --port 8000
+```
+Interactive Swagger API documentation will be available at:
+`http://localhost:8000/docs`
+
+---
+
+## 📡 REST API Reference
+
+| Method | Endpoint | Description |
+|---|---|---|
+| `GET` | `/health` | Service health status and version |
+| `POST` | `/api/scans` | Start a new scan (accepts zip upload, git repo URL, or local path) |
+| `GET` | `/api/scans` | List all historical scans |
+| `GET` | `/api/scans/{id}` | Get status and progress of a scan |
+| `DELETE` | `/api/scans/{id}` | Delete a scan and its discovered artefacts |
+| `GET` | `/api/scans/{id}/artefacts` | Query artefacts (filters: `type`, `risk_level`, `quantum_status`, `is_at_risk`, `scanner`; pagination) |
+| `GET` | `/api/scans/{id}/summary` | Comprehensive risk posture scorecard, top 10 riskiest items, and Mosca parameters |
+| `PUT` | `/api/artefacts/{id}/override` | Override lifetime, business criticality, or confidentiality shelf life ($X$) |
+| `PUT` | `/api/scans/{id}/mosca` | Dynamically update scan Mosca parameters ($X, Y, Z$) and recalculate risk |
+| `GET` | `/api/scans/{id}/export?format={cbom\|pdf\|html\|csv}` | Export results as CycloneDX 1.6 CBOM JSON, printable PDF, HTML scorecard, or CSV |
+| `GET` | `/api/catalogue` | List all cryptographic algorithms and NIST PQC replacements from the catalogue |
+
+### Example cURL Commands
+
+#### 1. Start a scan on a local directory
+```bash
+curl -X POST "http://localhost:8000/api/scans" \
+     -H "Content-Type: application/json" \
+     -d '{"local_path": "sample_targets/vulnerable_app"}'
+```
+
+#### 2. Upload a zipped repository
+```bash
+curl -X POST "http://localhost:8000/api/scans" \
+     -F "file=@my_app.zip"
+```
+
+#### 3. Retrieve risk posture summary
+```bash
+curl -X GET "http://localhost:8000/api/scans/<SCAN_ID>/summary"
+```
+
+#### 4. Export CycloneDX 1.6 CBOM
+```bash
+curl -X GET "http://localhost:8000/api/scans/<SCAN_ID>/export?format=cbom" -o cbom.json
+```
+
+#### 5. Export Executive PDF Report
+```bash
+curl -X GET "http://localhost:8000/api/scans/<SCAN_ID>/export?format=pdf" -o report.pdf
+```
+
+#### 6. Override artefact criticality and lifetime
+```bash
+curl -X PUT "http://localhost:8000/api/artefacts/<ARTEFACT_ID>/override" \
+     -H "Content-Type: application/json" \
+     -d '{"lifetime": "long", "criticality": "critical", "x": 15.0}'
+```
+
+#### 7. Update Mosca parameters ($X, Y, Z$)
+```bash
+curl -X PUT "http://localhost:8000/api/scans/<SCAN_ID>/mosca" \
+     -H "Content-Type: application/json" \
+     -d '{"y": 4.0, "z": 10.0}'
+```
+
+---
+
+## 🧪 Running Automated Tests
+
+```bash
+pytest tests/ -v
+```
+All 70 automated tests cover models, catalogue lookup, all 6 scanners, ground-truth evaluation, Mosca risk scoring, PQC recommendations, multi-format export, and FastAPI REST endpoints.
