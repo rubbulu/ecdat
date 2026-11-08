@@ -1,0 +1,7 @@
+Port 2222
+Protocol 2
+
+# Legacy/vulnerable SSH Key Exchange, Host Keys, and Ciphers
+KexAlgorithms diffie-hellman-group1-sha1,diffie-hellman-group14-sha1
+HostKeyAlgorithms ssh-rsa
+Ciphers 3des-cbc,aes128-cbc

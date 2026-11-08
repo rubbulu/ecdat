@@ -1,6 +1,6 @@
 {
   "description": "ECDAT Benchmark Ground Truth for sample_targets/vulnerable_app",
-  "total_planted_artefacts": 16,
+  "total_planted_artefacts": 32,
   "artefacts": [
     {
       "id": "GT-PY-01",
@@ -137,6 +137,135 @@
       "type": "algorithm",
       "quantum_status": "classically_broken",
       "notes": "Cipher.getInstance('DES/CBC/PKCS5Padding')"
+    },
+    {
+      "id": "GT-CERT-01",
+      "file": "server.crt",
+      "name": "RSA",
+      "key_size": 2048,
+      "type": "certificate",
+      "quantum_status": "vulnerable_shor",
+      "notes": "Self-signed X.509 certificate with RSA-2048 public key"
+    },
+    {
+      "id": "GT-DEP-PY-01",
+      "file": "requirements.txt",
+      "name": "pycrypto",
+      "type": "library",
+      "quantum_status": "classically_broken",
+      "notes": "Deprecated insecure pycrypto library"
+    },
+    {
+      "id": "GT-DEP-PY-02",
+      "file": "requirements.txt",
+      "name": "cryptography",
+      "type": "library",
+      "quantum_status": "vulnerable_shor",
+      "notes": "Python cryptography library"
+    },
+    {
+      "id": "GT-DEP-PY-03",
+      "file": "requirements.txt",
+      "name": "pyOpenSSL",
+      "type": "library",
+      "quantum_status": "vulnerable_shor",
+      "notes": "Python pyOpenSSL bindings"
+    },
+    {
+      "id": "GT-DEP-JS-01",
+      "file": "package.json",
+      "name": "crypto-js",
+      "type": "library",
+      "quantum_status": "classically_broken",
+      "notes": "Deprecated legacy crypto-js library"
+    },
+    {
+      "id": "GT-DEP-JS-02",
+      "file": "package.json",
+      "name": "node-forge",
+      "type": "library",
+      "quantum_status": "vulnerable_shor",
+      "notes": "Node.js node-forge library"
+    },
+    {
+      "id": "GT-DEP-JAVA-01",
+      "file": "pom.xml",
+      "name": "bouncycastle",
+      "type": "library",
+      "quantum_status": "vulnerable_shor",
+      "notes": "Bouncy Castle Java crypto provider"
+    },
+    {
+      "id": "GT-DEP-GO-01",
+      "file": "go.mod",
+      "name": "golang.org/x/crypto",
+      "type": "library",
+      "quantum_status": "vulnerable_shor",
+      "notes": "Go supplementary cryptographic libraries"
+    },
+    {
+      "id": "GT-CONF-NGINX-01",
+      "file": "nginx.conf",
+      "name": "TLS 1.0",
+      "type": "protocol",
+      "quantum_status": "classically_broken",
+      "notes": "Deprecated TLSv1 protocol enabled"
+    },
+    {
+      "id": "GT-CONF-NGINX-02",
+      "file": "nginx.conf",
+      "name": "TLS 1.1",
+      "type": "protocol",
+      "quantum_status": "classically_broken",
+      "notes": "Deprecated TLSv1.1 protocol enabled"
+    },
+    {
+      "id": "GT-CONF-NGINX-03",
+      "file": "nginx.conf",
+      "name": "RC4",
+      "type": "algorithm",
+      "quantum_status": "classically_broken",
+      "notes": "Weak RC4 cipher enabled in ssl_ciphers"
+    },
+    {
+      "id": "GT-CONF-NGINX-04",
+      "file": "nginx.conf",
+      "name": "3DES",
+      "type": "algorithm",
+      "quantum_status": "classically_broken",
+      "notes": "Weak 3DES cipher enabled in ssl_ciphers"
+    },
+    {
+      "id": "GT-CONF-SSH-01",
+      "file": "sshd_config",
+      "name": "DH",
+      "type": "protocol",
+      "quantum_status": "vulnerable_shor",
+      "notes": "Legacy diffie-hellman-group1-sha1 in KexAlgorithms"
+    },
+    {
+      "id": "GT-CONF-SSH-02",
+      "file": "sshd_config",
+      "name": "RSA",
+      "type": "algorithm",
+      "quantum_status": "vulnerable_shor",
+      "notes": "ssh-rsa in HostKeyAlgorithms"
+    },
+    {
+      "id": "GT-CONF-SSH-03",
+      "file": "sshd_config",
+      "name": "3DES",
+      "type": "algorithm",
+      "quantum_status": "classically_broken",
+      "notes": "3des-cbc in Ciphers"
+    },
+    {
+      "id": "GT-CONF-ENV-01",
+      "file": ".env",
+      "name": "RC4",
+      "type": "algorithm",
+      "quantum_status": "classically_broken",
+      "notes": "CIPHER=RC4 environment variable"
     }
   ]
 }

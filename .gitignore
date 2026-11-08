@@ -49,6 +49,8 @@ dist-ssr/
 .env.*.local
 *.pem
 *.key
+!sample_targets/**/.env
+!sample_targets/**/.env.*
 
 # Database
 *.sqlite

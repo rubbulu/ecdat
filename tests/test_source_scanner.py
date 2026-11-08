@@ -82,10 +82,11 @@ def test_ground_truth_recall(scanner, vulnerable_dir):
     discovered = scanner.scan(vulnerable_dir)
     assert len(discovered) > 0
 
-    # Match discovered artefacts to ground truth
-    matched_gt = 0
-    gt_artefacts = gt_data["artefacts"]
+    # SourceScanner specifically benchmarks against source code files (.py, .js, .java)
+    source_exts = {".py", ".js", ".java"}
+    gt_artefacts = [gt for gt in gt_data["artefacts"] if Path(gt["file"]).suffix.lower() in source_exts]
 
+    matched_gt = 0
     for gt in gt_artefacts:
         gt_file = gt["file"]
         gt_name = gt["name"].upper()
