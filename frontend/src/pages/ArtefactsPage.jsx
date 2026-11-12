@@ -39,33 +39,40 @@ export function ArtefactsPage({ scanId }) {
   const [editX, setEditX] = useState(10);
   const [savingOverride, setSavingOverride] = useState(false);
 
-  const loadArtefacts = async () => {
+  useEffect(() => {
+    setPage(0);
+  }, [scanId]);
+
+  useEffect(() => {
     if (!scanId) return;
+    let cancelled = false;
+    const isSearching = searchTerm.trim().length > 0;
+
     setLoading(true);
-    try {
-      const data = await api.getArtefacts(scanId, {
+    api
+      .getArtefacts(scanId, {
         type: selectedType,
         risk_level: selectedRisk,
         quantum_status: selectedQuantum,
-        limit,
-        offset: page * limit,
+        limit: isSearching ? 500 : limit,
+        offset: isSearching ? 0 : page * limit,
+      })
+      .then((data) => {
+        if (cancelled) return;
+        setItems(data.items || []);
+        setTotal(data.total || 0);
+      })
+      .catch((err) => {
+        if (!cancelled) console.error('Failed to load artefacts:', err);
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false);
       });
-      setItems(data.items || []);
-      setTotal(data.total || 0);
-    } catch (err) {
-      console.error('Failed to load artefacts:', err);
-    } finally {
-      setLoading(false);
-    }
-  };
 
-  useEffect(() => {
-    setPage(0);
-  }, [scanId, selectedType, selectedRisk, selectedQuantum]);
-
-  useEffect(() => {
-    loadArtefacts();
-  }, [scanId, selectedType, selectedRisk, selectedQuantum, page]);
+    return () => {
+      cancelled = true;
+    };
+  }, [scanId, selectedType, selectedRisk, selectedQuantum, page, searchTerm]);
 
   // Client-side search filtering
   const filteredItems = items.filter((item) => {
@@ -141,7 +148,10 @@ export function ArtefactsPage({ scanId }) {
             type="text"
             placeholder="Search by algorithm or file..."
             value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            onChange={(e) => {
+              setPage(0);
+              setSearchTerm(e.target.value);
+            }}
             className="w-full bg-slate-900 border border-slate-700 rounded-xl pl-9 pr-4 py-2 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
           />
         </div>
@@ -156,7 +166,10 @@ export function ArtefactsPage({ scanId }) {
         {/* Filter: Asset Type */}
         <select
           value={selectedType}
-          onChange={(e) => setSelectedType(e.target.value)}
+          onChange={(e) => {
+            setPage(0);
+            setSelectedType(e.target.value);
+          }}
           className="bg-slate-950 border border-slate-700 text-slate-300 rounded-lg px-2.5 py-1.5 focus:outline-none"
         >
           <option value="">All Types</option>
@@ -170,7 +183,10 @@ export function ArtefactsPage({ scanId }) {
         {/* Filter: Risk Level */}
         <select
           value={selectedRisk}
-          onChange={(e) => setSelectedRisk(e.target.value)}
+          onChange={(e) => {
+            setPage(0);
+            setSelectedRisk(e.target.value);
+          }}
           className="bg-slate-950 border border-slate-700 text-slate-300 rounded-lg px-2.5 py-1.5 focus:outline-none"
         >
           <option value="">All Risk Levels</option>
@@ -183,7 +199,10 @@ export function ArtefactsPage({ scanId }) {
         {/* Filter: Quantum Status */}
         <select
           value={selectedQuantum}
-          onChange={(e) => setSelectedQuantum(e.target.value)}
+          onChange={(e) => {
+            setPage(0);
+            setSelectedQuantum(e.target.value);
+          }}
           className="bg-slate-950 border border-slate-700 text-slate-300 rounded-lg px-2.5 py-1.5 focus:outline-none"
         >
           <option value="">All Quantum Statuses</option>
@@ -196,6 +215,7 @@ export function ArtefactsPage({ scanId }) {
         {(selectedType || selectedRisk || selectedQuantum || searchTerm) && (
           <button
             onClick={() => {
+              setPage(0);
               setSelectedType('');
               setSelectedRisk('');
               setSelectedQuantum('');
