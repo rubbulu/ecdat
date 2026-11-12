@@ -1,4 +1,5 @@
-const API_BASE = '/api';
+const rawApiUrl = (import.meta.env.VITE_API_URL || '').trim().replace(/\/+$/, '');
+const API_BASE = rawApiUrl ? `${rawApiUrl}/api` : '/api';
 
 /**
  * Handle API responses with proper error extraction

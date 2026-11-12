@@ -71,11 +71,43 @@ app = FastAPI(
     version="1.0.0",
 )
 
+def _parse_allowed_origins() -> tuple[List[str], bool]:
+    """
+    Parse comma-separated CORS origins from ALLOWED_ORIGINS (or CORS_ORIGINS).
+    Returns (origins, allow_credentials).
+    """
+    raw = (os.getenv("ALLOWED_ORIGINS") or os.getenv("CORS_ORIGINS") or "").strip()
+    if not raw:
+        return ["*"], False
+
+    origins: List[str] = []
+    for item in raw.split(","):
+        cleaned = item.strip().rstrip("/")
+        if cleaned:
+            origins.append(cleaned)
+
+    if "*" in origins or not origins:
+        return ["*"], False
+
+    for local_origin in (
+        "http://localhost:5173",
+        "http://127.0.0.1:5173",
+        "http://localhost:3000",
+        "http://127.0.0.1:3000",
+    ):
+        if local_origin not in origins:
+            origins.append(local_origin)
+
+    return origins, True
+
+
+_cors_origins, _cors_credentials = _parse_allowed_origins()
+
 # CORS Configuration
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
+    allow_origins=_cors_origins,
+    allow_credentials=_cors_credentials,
     allow_methods=["*"],
     allow_headers=["*"],
 )

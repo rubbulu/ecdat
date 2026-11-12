@@ -231,3 +231,22 @@ def test_export_endpoints(scanned_app):
     # 5. Unsupported format
     resp_bad = client.get(f"/api/scans/{scanned_app}/export?format=docx")
     assert resp_bad.status_code == 400
+
+
+def test_cors_origins_env_parsing(monkeypatch):
+    from backend.main import _parse_allowed_origins
+
+    # Default when env vars unset
+    monkeypatch.delenv("ALLOWED_ORIGINS", raising=False)
+    monkeypatch.delenv("CORS_ORIGINS", raising=False)
+    origins, creds = _parse_allowed_origins()
+    assert origins == ["*"]
+    assert creds is False
+
+    # Configured Vercel URL (with trailing slash and spaces)
+    monkeypatch.setenv("ALLOWED_ORIGINS", " https://ecdat-demo.vercel.app/ , https://preview.vercel.app ")
+    origins, creds = _parse_allowed_origins()
+    assert "https://ecdat-demo.vercel.app" in origins
+    assert "https://preview.vercel.app" in origins
+    assert "http://localhost:5173" in origins
+    assert creds is True
