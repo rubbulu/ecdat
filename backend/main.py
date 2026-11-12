@@ -152,9 +152,16 @@ def _run_scan_job(scan_id: str, target_path: str, temp_dir: Optional[str] = None
         discovered_artefacts = ScannerRegistry.scan_all(target_path)
         logger.info(f"Discovered {len(discovered_artefacts)} artefacts for scan {scan_id}")
 
-        # Associate each artefact with this scan
+        # Associate each artefact with this scan and strip ephemeral temp_dir prefix
+        temp_root = Path(temp_dir).resolve() if temp_dir else None
         for art in discovered_artefacts:
             art.scan_id = scan_id
+            if temp_root is not None:
+                try:
+                    rel = Path(art.location.file).resolve().relative_to(temp_root)
+                    art.location.file = rel.as_posix()
+                except ValueError:
+                    pass
 
         # Persist artefacts to SQLite
         db.save_artefacts(scan_id, discovered_artefacts)
@@ -330,6 +337,7 @@ async def create_scan(
     Can be submitted via multipart/form-data or application/json.
     """
     target_scan_path: Optional[str] = None
+    display_target_path: Optional[str] = None
     temp_dir_to_clean: Optional[str] = None
     initial_metadata: Dict[str, Any] = {
         "mosca": {"x": 5.0, "y": 3.0, "z": 12.0},
@@ -372,6 +380,7 @@ async def create_scan(
         temp_dir_to_clean = temp_dir
         _extract_zip_safely(file_bytes, Path(temp_dir))
         target_scan_path = temp_dir
+        display_target_path = file.filename
         initial_metadata["source_type"] = "zip_upload"
         initial_metadata["original_filename"] = file.filename
 
@@ -381,6 +390,7 @@ async def create_scan(
         temp_dir_to_clean = temp_dir
         _clone_git_repo_safely(git_url, Path(temp_dir))
         target_scan_path = temp_dir
+        display_target_path = git_url.strip()
         initial_metadata["source_type"] = "git_repo"
         initial_metadata["git_url"] = git_url
 
@@ -393,10 +403,11 @@ async def create_scan(
                 detail=f"Target local path '{local_path}' does not exist on filesystem.",
             )
         target_scan_path = str(p)
+        display_target_path = str(p)
         initial_metadata["source_type"] = "local_path"
 
     # Create scan record in database
-    scan = db.create_scan(target_path=target_scan_path, metadata=initial_metadata)
+    scan = db.create_scan(target_path=display_target_path or target_scan_path, metadata=initial_metadata)
 
     # Enqueue background scanning task
     background_tasks.add_task(

@@ -90,7 +90,15 @@ def test_create_scan_zip_upload():
     assert response.status_code == 202
     data = response.json()
     assert "id" in data
+    assert data["target_path"] == "test.zip"
     assert data["metadata"]["source_type"] == "zip_upload"
+
+    # BackgroundTasks runs before TestClient returns; verify relative path stored
+    arts_resp = client.get(f"/api/scans/{data['id']}/artefacts")
+    assert arts_resp.status_code == 200
+    items = arts_resp.json()["items"]
+    assert len(items) >= 1
+    assert items[0]["artefact"]["location"]["file"] == "test_crypto.py"
 
 
 def test_create_scan_zip_slip_rejection():
