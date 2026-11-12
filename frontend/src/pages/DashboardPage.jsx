@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   ShieldAlert,
   ShieldCheck,
@@ -30,6 +30,29 @@ import { RiskBadge } from '../components/RiskBadge';
 import { api } from '../api/client';
 
 export function DashboardPage({ scan, summary, onUpdateSummary, onNavigateToArtefacts }) {
+  // Mosca parameters local state (hooks always before early return)
+  const initialMosca = summary?.mosca_parameters || { x_default: 5.0, y: 3.0, z: 12.0 };
+  const [xVal, setXVal] = useState(initialMosca.x_default ?? 5.0);
+  const [yVal, setYVal] = useState(initialMosca.y ?? 3.0);
+  const [zVal, setZVal] = useState(initialMosca.z ?? 12.0);
+  const [updatingMosca, setUpdatingMosca] = useState(false);
+  const debounceTimerRef = useRef(null);
+
+  useEffect(() => {
+    const m = summary?.mosca_parameters;
+    if (m) {
+      setXVal(m.x_default ?? 5.0);
+      setYVal(m.y ?? 3.0);
+      setZVal(m.z ?? 12.0);
+    }
+  }, [scan?.id]);
+
+  useEffect(() => {
+    return () => {
+      if (debounceTimerRef.current) clearTimeout(debounceTimerRef.current);
+    };
+  }, []);
+
   if (!summary) {
     return (
       <div className="text-center py-20 text-slate-400">
@@ -37,13 +60,6 @@ export function DashboardPage({ scan, summary, onUpdateSummary, onNavigateToArte
       </div>
     );
   }
-
-  // Mosca parameters local state
-  const initialMosca = summary.mosca_parameters || { x_default: 5.0, y: 3.0, z: 12.0 };
-  const [xVal, setXVal] = useState(initialMosca.x_default || 5.0);
-  const [yVal, setYVal] = useState(initialMosca.y || 3.0);
-  const [zVal, setZVal] = useState(initialMosca.z || 12.0);
-  const [updatingMosca, setUpdatingMosca] = useState(false);
 
   // Calculate live Mosca Inequality check
   const moscaSum = Number(xVal) + Number(yVal);
@@ -79,14 +95,14 @@ export function DashboardPage({ scan, summary, onUpdateSummary, onNavigateToArte
     }));
   }
 
-  const handleApplyMosca = async () => {
+  const applyMoscaValues = async (nx, ny, nz) => {
     if (!scan?.id) return;
     setUpdatingMosca(true);
     try {
       await api.updateMosca(scan.id, {
-        x: parseFloat(xVal),
-        y: parseFloat(yVal),
-        z: parseFloat(zVal),
+        x: parseFloat(nx),
+        y: parseFloat(ny),
+        z: parseFloat(nz),
       });
       const freshSummary = await api.getSummary(scan.id);
       if (onUpdateSummary) onUpdateSummary(freshSummary);
@@ -95,6 +111,27 @@ export function DashboardPage({ scan, summary, onUpdateSummary, onNavigateToArte
     } finally {
       setUpdatingMosca(false);
     }
+  };
+
+  const handleApplyMosca = () => {
+    if (debounceTimerRef.current) clearTimeout(debounceTimerRef.current);
+    applyMoscaValues(xVal, yVal, zVal);
+  };
+
+  const handleSliderChange = (which, rawValue) => {
+    const val = parseFloat(rawValue);
+    const nx = which === 'x' ? val : xVal;
+    const ny = which === 'y' ? val : yVal;
+    const nz = which === 'z' ? val : zVal;
+
+    if (which === 'x') setXVal(val);
+    if (which === 'y') setYVal(val);
+    if (which === 'z') setZVal(val);
+
+    if (debounceTimerRef.current) clearTimeout(debounceTimerRef.current);
+    debounceTimerRef.current = setTimeout(() => {
+      applyMoscaValues(nx, ny, nz);
+    }, 250);
   };
 
   const handleExport = (format) => {
@@ -309,7 +346,7 @@ export function DashboardPage({ scan, summary, onUpdateSummary, onNavigateToArte
               max="25"
               step="0.5"
               value={xVal}
-              onChange={(e) => setXVal(e.target.value)}
+              onChange={(e) => handleSliderChange('x', e.target.value)}
               className="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-indigo-500"
             />
             <p className="text-[11px] text-slate-500">Duration data must remain confidential (HIPAA, PCI, trade secrets).</p>
@@ -327,7 +364,7 @@ export function DashboardPage({ scan, summary, onUpdateSummary, onNavigateToArte
               max="15"
               step="0.5"
               value={yVal}
-              onChange={(e) => setYVal(e.target.value)}
+              onChange={(e) => handleSliderChange('y', e.target.value)}
               className="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-amber-500"
             />
             <p className="text-[11px] text-slate-500">Years required to inventory, patch, test, and deploy PQC standards.</p>
@@ -345,7 +382,7 @@ export function DashboardPage({ scan, summary, onUpdateSummary, onNavigateToArte
               max="25"
               step="0.5"
               value={zVal}
-              onChange={(e) => setZVal(e.target.value)}
+              onChange={(e) => handleSliderChange('z', e.target.value)}
               className="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-cyan-500"
             />
             <p className="text-[11px] text-slate-500">Consensus timeline until Shor's algorithm breaks RSA & ECC (NIST estimate ~2035).</p>
