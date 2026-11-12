@@ -25,6 +25,10 @@ def scanned_app():
 
 
 def test_health_check():
+    root_resp = client.get("/")
+    assert root_resp.status_code == 200
+    assert root_resp.json()["docs"] == "/docs"
+
     response = client.get("/health")
     assert response.status_code == 200
     data = response.json()

@@ -258,6 +258,17 @@ def _clone_git_repo_safely(git_url: str, destination_dir: Path) -> Path:
 # REST Endpoints
 # ---------------------------------------------------------------------------
 
+@app.get("/", tags=["System"])
+def root() -> Dict[str, str]:
+    """Root service landing endpoint."""
+    return {
+        "service": "ECDAT API",
+        "status": "ok",
+        "docs": "/docs",
+        "health": "/health",
+    }
+
+
 @app.get("/health", tags=["System"])
 @app.get("/api/health", tags=["System"])
 def health_check() -> Dict[str, Any]:
