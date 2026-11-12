@@ -353,8 +353,14 @@ export function DashboardPage({ scan, summary, onUpdateSummary, onNavigateToArte
 
         </div>
 
-        {/* Apply Button */}
-        <div className="mt-4 flex justify-end">
+        {/* Apply Button & Live At-Risk Readout */}
+        <div className="mt-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div className="flex items-center gap-2 text-xs text-slate-300 bg-slate-950/60 border border-slate-800 px-3.5 py-2 rounded-lg">
+            <ShieldAlert className={`w-4 h-4 ${summary.at_risk_count > 0 ? 'text-rose-400' : 'text-emerald-400'}`} />
+            <span>At Quantum Risk (Mosca):</span>
+            <span className="font-mono font-bold text-white text-sm">{summary.at_risk_count}</span>
+            <span className="text-slate-500">/ {summary.total_artefacts} assets</span>
+          </div>
           <button
             onClick={handleApplyMosca}
             disabled={updatingMosca}
