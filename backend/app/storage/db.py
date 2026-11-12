@@ -284,11 +284,20 @@ class DatabaseManager:
             return [self._row_to_artefact(row) for row in cursor.fetchall()]
 
     def delete_scan(self, scan_id: str) -> bool:
-        """Delete a scan and all associated artefacts via CASCADE."""
+        """Delete a scan and all associated artefacts."""
         with self._get_connection() as conn:
+            conn.execute("DELETE FROM artefacts WHERE scan_id = ?", (scan_id,))
             cursor = conn.execute("DELETE FROM scans WHERE id = ?", (scan_id,))
             conn.commit()
             return cursor.rowcount > 0
+
+    def delete_all_scans(self) -> int:
+        """Delete all scans and artefacts from database."""
+        with self._get_connection() as conn:
+            conn.execute("DELETE FROM artefacts")
+            cursor = conn.execute("DELETE FROM scans")
+            conn.commit()
+            return cursor.rowcount
 
     def get_scan_summary(self, scan_id: str) -> Dict[str, Any]:
         """Generate high-level aggregation metrics for a scan."""

@@ -1,7 +1,7 @@
 import React from 'react';
-import { ShieldAlert, Compass, UploadCloud, GitCompare, FolderTree, RefreshCw, Layers } from 'lucide-react';
+import { ShieldAlert, Compass, UploadCloud, GitCompare, FolderTree, RefreshCw, Layers, Trash2 } from 'lucide-react';
 
-export function Navbar({ activeTab, setActiveTab, scans = [], selectedScanId, onSelectScan, onRefresh }) {
+export function Navbar({ activeTab, setActiveTab, scans = [], selectedScanId, onSelectScan, onDeleteScan, onRefresh }) {
   const selectedScan = scans.find(s => s.id === selectedScanId);
 
   return (
@@ -103,6 +103,16 @@ export function Navbar({ activeTab, setActiveTab, scans = [], selectedScanId, on
                     </option>
                   ))}
                 </select>
+
+                {onDeleteScan && (
+                  <button
+                    onClick={() => onDeleteScan(selectedScanId)}
+                    title="Delete active scan from database"
+                    className="p-1.5 ml-1 text-slate-400 hover:text-rose-400 hover:bg-rose-950/50 rounded-lg transition-colors border border-transparent hover:border-rose-900/40 inline-flex items-center justify-center"
+                  >
+                    <Trash2 className="w-3.5 h-3.5" />
+                  </button>
+                )}
               </div>
             )}
 

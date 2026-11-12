@@ -37,6 +37,11 @@ export const api = {
     return handleResponse(res);
   },
 
+  async clearAllScans() {
+    const res = await fetch(`${API_BASE}/scans`, { method: 'DELETE' });
+    return handleResponse(res);
+  },
+
   async startScan({ file, git_url, local_path }) {
     if (file) {
       const formData = new FormData();

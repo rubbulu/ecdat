@@ -462,6 +462,13 @@ def get_scan(scan_id: str) -> Dict[str, Any]:
     }
 
 
+@app.delete("/api/scans", tags=["Scans"])
+def clear_all_scans() -> Dict[str, Any]:
+    """Delete all scans and reset database."""
+    count = db.delete_all_scans()
+    return {"message": f"Successfully deleted {count} scans."}
+
+
 @app.delete("/api/scans/{scan_id}", tags=["Scans"])
 def delete_scan(scan_id: str) -> Dict[str, Any]:
     """Delete a scan and cascade delete all associated artefacts."""

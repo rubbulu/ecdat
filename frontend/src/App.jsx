@@ -63,6 +63,31 @@ export default function App() {
     setActiveTab('dashboard');
   };
 
+  const handleDeleteScan = async (scanId) => {
+    if (!scanId) return;
+    const targetScan = scans.find((s) => s.id === scanId);
+    const targetName = targetScan?.target_path?.split(/[\\/]/).pop() || 'this scan';
+    if (!window.confirm(`Are you sure you want to delete "${targetName}" from the database?`)) return;
+    setLoading(true);
+    try {
+      await api.deleteScan(scanId);
+      const remainingScans = scans.filter((s) => s.id !== scanId);
+      setScans(remainingScans);
+      if (remainingScans.length > 0) {
+        await handleSelectScan(remainingScans[0].id);
+      } else {
+        setSelectedScanId('');
+        setSummary(null);
+        setActiveTab('upload');
+      }
+    } catch (err) {
+      console.error('Failed to delete scan:', err);
+      setError('Failed to delete scan: ' + err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const selectedScan = scans.find((s) => s.id === selectedScanId);
 
   return (
@@ -75,6 +100,7 @@ export default function App() {
         scans={scans}
         selectedScanId={selectedScanId}
         onSelectScan={handleSelectScan}
+        onDeleteScan={handleDeleteScan}
         onRefresh={() => loadScans(selectedScanId)}
       />
 
