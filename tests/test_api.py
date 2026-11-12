@@ -163,6 +163,8 @@ def test_get_scan_summary(scanned_app):
     assert summary["total_artefacts"] > 0
     assert summary["at_risk_count"] > 0
     assert "counts_by_risk_level" in summary
+    assert "counts_by_algorithm" in summary
+    assert "RSA" in summary["counts_by_algorithm"]
     assert "top_10_riskiest" in summary
     assert len(summary["top_10_riskiest"]) <= 10
     assert "mosca_parameters" in summary

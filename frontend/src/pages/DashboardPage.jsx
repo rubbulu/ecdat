@@ -61,16 +61,23 @@ export function DashboardPage({ scan, summary, onUpdateSummary, onNavigateToArte
     { name: 'Low', value: summary.counts_by_risk_level?.low || 0, color: '#10b981' },
   ].filter((d) => d.value > 0);
 
-  // Group top algorithms from top_10_riskiest or summary
-  const algoCounts = {};
-  (summary.top_10_riskiest || []).forEach((item) => {
-    const name = item.artefact_name || 'Unknown';
-    algoCounts[name] = (algoCounts[name] || 0) + 1;
-  });
-  const barData = Object.entries(algoCounts).map(([name, count]) => ({
-    name,
-    count,
-  }));
+  // Aggregate top algorithms across all discovered artefacts (fallback to top_10_riskiest)
+  let barData = [];
+  if (summary.counts_by_algorithm && Object.keys(summary.counts_by_algorithm).length > 0) {
+    barData = Object.entries(summary.counts_by_algorithm)
+      .slice(0, 8)
+      .map(([name, count]) => ({ name, count }));
+  } else {
+    const algoCounts = {};
+    (summary.top_10_riskiest || []).forEach((item) => {
+      const name = item.artefact_name || 'Unknown';
+      algoCounts[name] = (algoCounts[name] || 0) + 1;
+    });
+    barData = Object.entries(algoCounts).map(([name, count]) => ({
+      name,
+      count,
+    }));
+  }
 
   const handleApplyMosca = async () => {
     if (!scan?.id) return;

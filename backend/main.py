@@ -557,12 +557,20 @@ def get_scan_summary(scan_id: str) -> Dict[str, Any]:
     y = float(mosca_meta.get("y", 3.0))
     z = float(mosca_meta.get("z", 12.0))
     default_x = float(mosca_meta.get("x", 5.0))
+    x_custom = bool(mosca_meta.get("x_custom", False))
 
     # Build per-artefact overrides
-    overrides = {}
+    overrides: Dict[str, Dict[str, Any]] = {}
+    algo_counts: Dict[str, int] = {}
     for art in artefacts:
-        if art.metadata and "overrides" in art.metadata:
-            overrides[art.id] = art.metadata["overrides"]
+        algo_counts[art.name] = algo_counts.get(art.name, 0) + 1
+        art_ovr = dict((art.metadata or {}).get("overrides", {}))
+        if x_custom and "x" not in art_ovr:
+            art_ovr["x"] = default_x
+        if art_ovr:
+            overrides[art.id] = art_ovr
+
+    sorted_algos = dict(sorted(algo_counts.items(), key=lambda kv: kv[1], reverse=True)[:10])
 
     summary = RiskEngine.assess_artefacts(
         artefacts,
@@ -582,6 +590,7 @@ def get_scan_summary(scan_id: str) -> Dict[str, Any]:
         "counts_by_risk_level": summary.counts_by_risk_level,
         "counts_by_lifetime": summary.counts_by_lifetime,
         "counts_by_criticality": summary.counts_by_criticality,
+        "counts_by_algorithm": sorted_algos,
         "top_10_riskiest": [a.model_dump() for a in summary.top_riskiest],
         "mosca_parameters": {
             "x_default": default_x,
@@ -670,6 +679,7 @@ def update_scan_mosca_parameters(
     current_mosca = (scan.metadata or {}).get("mosca", {"x": 5.0, "y": 3.0, "z": 12.0})
     if params.x is not None:
         current_mosca["x"] = params.x
+        current_mosca["x_custom"] = True
     if params.y is not None:
         current_mosca["y"] = params.y
     if params.z is not None:
@@ -680,10 +690,15 @@ def update_scan_mosca_parameters(
 
     # Recalculate summary with updated params
     artefacts = db.get_artefacts(scan_id)
-    overrides = {}
+    x_custom = bool(current_mosca.get("x_custom", False))
+    default_x = float(current_mosca.get("x", 5.0))
+    overrides: Dict[str, Dict[str, Any]] = {}
     for art in artefacts:
-        if art.metadata and "overrides" in art.metadata:
-            overrides[art.id] = art.metadata["overrides"]
+        art_ovr = dict((art.metadata or {}).get("overrides", {}))
+        if x_custom and "x" not in art_ovr:
+            art_ovr["x"] = default_x
+        if art_ovr:
+            overrides[art.id] = art_ovr
 
     summary = RiskEngine.assess_artefacts(
         artefacts,
